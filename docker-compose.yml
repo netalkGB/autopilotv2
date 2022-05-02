@@ -1,0 +1,32 @@
+version: '3'
+services:
+  ap_proxy:
+    container_name: ap_proxy
+    build: ./proxy
+    tty: true
+    ports:
+      - "53000:53000/tcp"
+    restart: on-failure:5
+  ap_webpilot:
+    container_name: ap_webpilot
+    depends_on:
+      - ap_proxy
+      - postgres
+    build: ./webpilot
+    tty: true
+    ports:
+      - "58000:58000/tcp"
+    restart: on-failure:5
+  postgres:
+    container_name: postgres
+    image: postgres:14
+    ports:
+    - "5432:5432/tcp"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - db_data:/var/lib/posrgresql/data
+volumes:
+  db_data: {}
