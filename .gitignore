@@ -1,0 +1,11 @@
+node_modules
+.DS_Store
+
+/proxy/node_modules
+/proxy/out
+/proxy/config.json
+
+/webpilot/node_modules
+/webpilot/out
+/webpilot/config.json
+/webpilot/dbConfig.json

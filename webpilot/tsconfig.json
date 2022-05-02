@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+      "incremental": true,
+      "target": "es2022",
+      "experimentalDecorators": true,
+      "strictPropertyInitialization": false,
+      "emitDecoratorMetadata": true,
+      "module": "commonjs",
+      "allowJs": true,
+      "checkJs": true,
+      "sourceMap": true,
+      "outDir": "./out/",
+      "rootDir": "./",
+      "removeComments": true,
+      "strict": true,
+      "esModuleInterop": true,   
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "moduleResolution": "node",
+      "resolveJsonModule": true
+    },
+    "exclude": [
+      "node_modules",
+      "out",
+      "webpack.config.js",
+      "script"
+    ]
+}

@@ -1,0 +1,5 @@
+{
+    "port": 53000,
+    "permitIntervalMs": 1200000,
+    "useragent": "http(s) client"
+}

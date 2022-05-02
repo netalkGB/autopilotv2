@@ -1,0 +1,4 @@
+{
+    "port": 58000,
+    "proxyUrl": "http://localhost:53000/request"
+}
