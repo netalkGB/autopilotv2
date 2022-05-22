@@ -3,6 +3,7 @@ import { AppDataSource } from '../AppDataSource'
 import log4js from 'log4js'
 import { ConfigService } from '../service/ConfigService'
 import { NotificationService } from '../service/NotificationService'
+import { DiscordConfigRequest } from '../model/DiscordConfigRequest'
 
 const logger = log4js.getLogger('app')
 
@@ -15,7 +16,8 @@ export const discordConfigPutController = async (request: Request, response: Res
     const notificationService = new NotificationService(configService)
 
     const body = request.body
-    const discordWebHookUrl = body.discordWebHookUrl
+    const discordRequest = new DiscordConfigRequest(body)
+    const discordWebHookUrl = discordRequest.discordWebHookUrl
     if (!discordWebHookUrl) {
       response.send('discordWebHookUrl is required.').status(400)
       logger.info('end discordConfigPutController')

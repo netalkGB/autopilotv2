@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { AppDataSource } from '../AppDataSource'
 import { ScheduleService } from '../service/ScheduleService'
 import log4js from 'log4js'
+import { ScheduleRequest } from '../model/ScheduleRequest'
 
 const logger = log4js.getLogger('app')
 
@@ -11,7 +12,8 @@ export const schedulePutController = async (request: Request, response: Response
     const scheduleService = new ScheduleService(AppDataSource)
     const body = request.body
     const id = body.id
-    const schedule = body.schedule
+    const schedleRequest = new ScheduleRequest(body)
+    const schedule = schedleRequest.schedule
     if (!schedule || !id) {
       response.send('schedule and id is required.').status(400)
       logger.info('end schedulePutController')

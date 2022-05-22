@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { AppDataSource } from '../AppDataSource'
 import log4js from 'log4js'
 import { ConfigService } from '../service/ConfigService'
+import { DiscordConfigResponse } from '../model/DiscordConfigResponse'
 
 const logger = log4js.getLogger('app')
 
@@ -11,12 +12,10 @@ export const discordConfigGetController = async (request: Request, response: Res
   logger.info('start discordConfigGetController')
   const configService = new ConfigService(AppDataSource)
   try {
+    const discordConfigResponse = new DiscordConfigResponse()
     const url = await configService.getConfigValue(DISCORD_CONFIG_KEY)
-    if (url) {
-      response.send(JSON.stringify({ configured: true })).status(200)
-    } else {
-      response.send(JSON.stringify({ configured: false })).status(200)
-    }
+    discordConfigResponse.configured = Boolean(url)
+    response.send(discordConfigResponse).status(200)
     logger.info('end discordConfigGetController')
   } catch (e) {
     response.send('error').status(500)
