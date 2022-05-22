@@ -6,6 +6,7 @@ import { ScheduleValidator } from '../validator/ScheduleValidator'
 import { Schedule } from '../entity/Schedule'
 import { RSSService } from '../service/RSSService'
 import { ServerConfig } from '../ServerConfig'
+import { ScheduleRequest } from '../model/ScheduleRequest'
 
 const logger = log4js.getLogger('app')
 
@@ -16,7 +17,7 @@ export const schedulePostController = async (request: Request, response: Respons
     const scheduleService = new ScheduleService(AppDataSource)
     const rssService = new RSSService(ServerConfig.proxyUrl)
 
-    const inputSchedule = request.body
+    const inputSchedule = new ScheduleRequest(request.body)
     if (!scheduleValidator.validateSchedule(inputSchedule?.schedule)) {
       response.send('schedule === \'every30minutes\' || schedule === \'every1hour\'').status(400)
       return

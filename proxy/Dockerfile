@@ -6,4 +6,4 @@ WORKDIR /app
 
 EXPOSE 53000 53000/tcp
 
-CMD [ "yarn", "start"]
+CMD [ "npm", "start"]
