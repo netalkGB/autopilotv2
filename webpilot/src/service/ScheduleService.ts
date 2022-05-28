@@ -37,12 +37,26 @@ export class ScheduleService {
       await this.appDataSource.createQueryBuilder().delete().from(Schedule).where('id = :id', { id }).execute()
     }
 
-    public async updateSchedule (id: string, schedule: string) {
+    public async updateSchedule (id: string, schedule: string, name: string) {
       const isAlreadyExist = await this.checkExistsScheduleById(id)
       if (!isAlreadyExist) {
         throw new Error('not yet registered')
       }
-      await this.appDataSource.createQueryBuilder().update(Schedule).set({ _schedule: schedule }).where('id = :id', { id }).execute()
+
+      let updateColumn = {}
+      if (schedule) {
+        updateColumn = {
+          ...updateColumn,
+          _schedule: schedule
+        }
+        if (name) {
+          updateColumn = {
+            ...updateColumn,
+            _name: name
+          }
+        }
+      }
+      await this.appDataSource.createQueryBuilder().update(Schedule).set(updateColumn).where('id = :id', { id }).execute()
     }
 
     public async getHistory () {
