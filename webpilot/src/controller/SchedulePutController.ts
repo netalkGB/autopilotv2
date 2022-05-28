@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { AppDataSource } from '../AppDataSource'
-import { ScheduleService } from '../service/ScheduleService'
+import { ScheduleServiceImpl } from '../service/ScheduleServiceImpl'
 import log4js from 'log4js'
 import { ScheduleRequest } from '../model/ScheduleRequest'
 import { ScheduleValidator } from '../validator/ScheduleValidator'
@@ -11,7 +11,7 @@ export const schedulePutController = async (request: Request, response: Response
   logger.info('start schedulePutController')
   try {
     const scheduleValidator = new ScheduleValidator()
-    const scheduleService = new ScheduleService(AppDataSource)
+    const scheduleService = new ScheduleServiceImpl(AppDataSource)
     const body = request.body
     const id = body.id
     const scheduleRequest = new ScheduleRequest(body)

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { AppDataSource } from '../AppDataSource'
 import log4js from 'log4js'
-import { ConfigService } from '../service/ConfigService'
+import { ConfigServiceImpl } from '../service/ConfigServiceImpl'
 import { DiscordConfigResponse } from '../model/DiscordConfigResponse'
 
 const logger = log4js.getLogger('app')
@@ -10,7 +10,7 @@ const DISCORD_CONFIG_KEY = 'discordWebHookUrl'
 
 export const discordConfigGetController = async (request: Request, response: Response) => {
   logger.info('start discordConfigGetController')
-  const configService = new ConfigService(AppDataSource)
+  const configService = new ConfigServiceImpl(AppDataSource)
   try {
     const discordConfigResponse = new DiscordConfigResponse()
     const url = await configService.getConfigValue(DISCORD_CONFIG_KEY)

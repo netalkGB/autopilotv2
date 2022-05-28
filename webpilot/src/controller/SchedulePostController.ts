@@ -1,10 +1,10 @@
 import { Request, Response } from 'express'
 import { AppDataSource } from '../AppDataSource'
-import { ScheduleService } from '../service/ScheduleService'
+import { ScheduleServiceImpl } from '../service/ScheduleServiceImpl'
 import log4js from 'log4js'
 import { ScheduleValidator } from '../validator/ScheduleValidator'
 import { Schedule } from '../entity/Schedule'
-import { RSSService } from '../service/RSSService'
+import { RSSServiceImpl } from '../service/RSSServiceImpl'
 import { ServerConfig } from '../ServerConfig'
 import { ScheduleRequest } from '../model/ScheduleRequest'
 
@@ -14,8 +14,8 @@ export const schedulePostController = async (request: Request, response: Respons
   logger.info('start schedulePostController')
   try {
     const scheduleValidator = new ScheduleValidator()
-    const scheduleService = new ScheduleService(AppDataSource)
-    const rssService = new RSSService(ServerConfig.proxyUrl)
+    const scheduleService = new ScheduleServiceImpl(AppDataSource)
+    const rssService = new RSSServiceImpl(ServerConfig.proxyUrl)
 
     const inputSchedule = new ScheduleRequest(request.body)
     if (!scheduleValidator.validateSchedule(inputSchedule?.schedule)) {

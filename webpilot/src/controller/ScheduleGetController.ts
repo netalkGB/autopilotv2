@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { AppDataSource } from '../AppDataSource'
-import { ScheduleService } from '../service/ScheduleService'
+import { ScheduleServiceImpl } from '../service/ScheduleServiceImpl'
 import log4js from 'log4js'
 import { ScheduleResponse } from '../model/ScheduleResponse'
 
@@ -8,7 +8,7 @@ const logger = log4js.getLogger('app')
 
 export const scheduleGetController = async (request: Request, response: Response) => {
   logger.info('start scheduleGetController')
-  const scheduleService = new ScheduleService(AppDataSource)
+  const scheduleService = new ScheduleServiceImpl(AppDataSource)
   try {
     const schedules = await scheduleService.getSchedule()
 

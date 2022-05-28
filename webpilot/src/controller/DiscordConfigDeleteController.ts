@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { AppDataSource } from '../AppDataSource'
 import log4js from 'log4js'
-import { ConfigService } from '../service/ConfigService'
+import { ConfigServiceImpl } from '../service/ConfigServiceImpl'
 
 const logger = log4js.getLogger('app')
 
@@ -10,7 +10,7 @@ const DISCORD_CONFIG_KEY = 'discordWebHookUrl'
 export const discordConfigDeleteController = async (request: Request, response: Response) => {
   logger.info('start discordConfigDeleteController')
   try {
-    const configService = new ConfigService(AppDataSource)
+    const configService = new ConfigServiceImpl(AppDataSource)
 
     await configService.setConfig(DISCORD_CONFIG_KEY, '')
     response.send().status(201)

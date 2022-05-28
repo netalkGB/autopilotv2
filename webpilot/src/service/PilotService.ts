@@ -1,37 +1,11 @@
-import { DataSource } from 'typeorm'
 import { Pilot } from '../entity/Pilot'
-import { History } from '../entity/History'
 
-export class PilotService {
-    private appDataSource: DataSource;
+export interface PilotService {
+  getPilot(): Promise<Pilot[]>
 
-    constructor (appDataSource: DataSource) {
-      this.appDataSource = appDataSource
-    }
+  getPilotByScheduleId(scheduleId: string): Promise<Pilot | null>
 
-    public async getPilot () {
-      return await this.appDataSource.getRepository(Pilot).createQueryBuilder().select().getMany()
-    }
+  setPilot(pilot: Pilot): Promise<void>
 
-    public async getPilotByScheduleId (scheduleId: string) {
-      return await this.appDataSource.getRepository(Pilot).createQueryBuilder().select().where('schedule_id = :schedule_id', { schedule_id: scheduleId }).getOne()
-    }
-
-    public async setPilot (pilot: Pilot) {
-      const dbPilot = await this.appDataSource.getRepository(Pilot).createQueryBuilder().select().where('schedule_id = :schedule_id', { schedule_id: pilot.scheduleId }).getOne()
-      if (dbPilot) {
-        dbPilot.updateKey = pilot.updateKey
-        await this.appDataSource.manager.save(dbPilot)
-      } else {
-        await this.appDataSource.manager.save(pilot)
-      }
-    }
-
-    public async addHistory (date: Date, result: string, scheduleId: string) {
-      const history = new History()
-      history.date = new Date()
-      history.result = result
-      history.scheduleId = scheduleId
-      await this.appDataSource.manager.save(history)
-    }
+  addHistory(date: Date, result: string, scheduleId: string): Promise<void>
 }

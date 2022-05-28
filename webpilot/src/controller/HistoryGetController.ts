@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { AppDataSource } from '../AppDataSource'
-import { ScheduleService } from '../service/ScheduleService'
+import { ScheduleServiceImpl } from '../service/ScheduleServiceImpl'
 import log4js from 'log4js'
 import { HistoryResponse } from '../model/HistoryResponse'
 
@@ -8,7 +8,7 @@ const logger = log4js.getLogger('app')
 
 export const historyGetController = async (request: Request, response: Response) => {
   logger.info('start historyGetController')
-  const scheduleService = new ScheduleService(AppDataSource)
+  const scheduleService = new ScheduleServiceImpl(AppDataSource)
   try {
     const histories = await scheduleService.getHistory()
 

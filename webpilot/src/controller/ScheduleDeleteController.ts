@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { AppDataSource } from '../AppDataSource'
-import { ScheduleService } from '../service/ScheduleService'
+import { ScheduleServiceImpl } from '../service/ScheduleServiceImpl'
 import log4js from 'log4js'
 
 const logger = log4js.getLogger('app')
@@ -8,7 +8,7 @@ const logger = log4js.getLogger('app')
 export const scheduleDeleteController = async (request: Request, response: Response) => {
   logger.info('start scheduleDeleteController')
   try {
-    const scheduleService = new ScheduleService(AppDataSource)
+    const scheduleService = new ScheduleServiceImpl(AppDataSource)
     const id = request.query.id as string
     if (!id) {
       response.send('id is required.').status(400)

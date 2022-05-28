@@ -1,9 +1,9 @@
 import { Request, Response } from 'express'
 import { AppDataSource } from '../AppDataSource'
 import log4js from 'log4js'
-import { ConfigService } from '../service/ConfigService'
-import { NotificationService } from '../service/NotificationService'
+import { ConfigServiceImpl } from '../service/ConfigServiceImpl'
 import { DiscordConfigRequest } from '../model/DiscordConfigRequest'
+import { NotificationServiceImpl } from '../service/NotificationServiceImpl'
 
 const logger = log4js.getLogger('app')
 
@@ -12,8 +12,8 @@ const DISCORD_CONFIG_KEY = 'discordWebHookUrl'
 export const discordConfigPutController = async (request: Request, response: Response) => {
   logger.info('start discordConfigPutController')
   try {
-    const configService = new ConfigService(AppDataSource)
-    const notificationService = new NotificationService(configService)
+    const configService = new ConfigServiceImpl(AppDataSource)
+    const notificationService = new NotificationServiceImpl(configService)
 
     const body = request.body
     const discordRequest = new DiscordConfigRequest(body)

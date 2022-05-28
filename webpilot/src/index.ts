@@ -1,21 +1,22 @@
 import { AppDataSource } from './AppDataSource'
 import { appRoutes } from './routes'
-import express, { Request, Response, NextFunction } from 'express'
+import express, { NextFunction, Request, Response } from 'express'
 import schedule from 'node-schedule'
 import log4js from 'log4js'
 import { ServerConfig } from './ServerConfig'
-import { AutoPilotService } from './service/AutoPilotService'
-import { ScheduleService } from './service/ScheduleService'
-import { PilotService } from './service/PilotService'
-import { RSSService } from './service/RSSService'
-import { ConfigService } from './service/ConfigService'
-import { NotificationService } from './service/NotificationService'
 import config from '../config.json'
+import { ConfigServiceImpl } from './service/ConfigServiceImpl'
+import { AutoPilotServiceImpl } from './service/AutoPilotServiceImpl'
+import { ScheduleServiceImpl } from './service/ScheduleServiceImpl'
+import { PilotServiceImpl } from './service/PilotServiceImpl'
+import { RSSServiceImpl } from './service/RSSServiceImpl'
+import { NotificationServiceImpl } from './service/NotificationServiceImpl'
 
 const logger = log4js.getLogger('app')
 logger.level = 'all'
 
 main()
+
 async function main () {
   ServerConfig.port = config?.port
   ServerConfig.proxyUrl = config?.proxyUrl
@@ -26,7 +27,7 @@ async function main () {
     await AppDataSource.initialize()
     const app = express()
     app.use(express.json())
-    app.use((err: any, req:Request, res:Response, next: NextFunction) => {
+    app.use((err: any, req: Request, res: Response, next: NextFunction) => {
       if (err instanceof SyntaxError && 'body' in err) {
         logger.error('json format error', err)
         return res.status(400).send('json format error') // Bad request
@@ -45,11 +46,11 @@ async function main () {
     })
 
     const autopilotService =
-      new AutoPilotService(logger,
-        new ScheduleService(AppDataSource),
-        new PilotService(AppDataSource),
-        new RSSService(ServerConfig.proxyUrl),
-        new NotificationService(new ConfigService(AppDataSource)))
+      new AutoPilotServiceImpl(logger,
+        new ScheduleServiceImpl(AppDataSource),
+        new PilotServiceImpl(AppDataSource),
+        new RSSServiceImpl(ServerConfig.proxyUrl),
+        new NotificationServiceImpl(new ConfigServiceImpl(AppDataSource)))
 
     const everyxx0030 = '0,30 */1 * * *' // every 30minutes and 1hour
     schedule.scheduleJob(everyxx0030, async () => {
