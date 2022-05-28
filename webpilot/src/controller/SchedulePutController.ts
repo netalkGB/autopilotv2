@@ -3,6 +3,7 @@ import { AppDataSource } from '../AppDataSource'
 import { ScheduleService } from '../service/ScheduleService'
 import log4js from 'log4js'
 import { ScheduleRequest } from '../model/ScheduleRequest'
+import { ScheduleValidator } from '../validator/ScheduleValidator'
 
 const logger = log4js.getLogger('app')
 
@@ -13,11 +14,8 @@ export const schedulePutController = async (request: Request, response: Response
     const scheduleService = new ScheduleService(AppDataSource)
     const body = request.body
     const id = body.id
-    const schedleRequest = new ScheduleRequest(body)
-    const schedule = schedleRequest.schedule
-    if (!schedule || !id) {
-      response.send('schedule and id is required.').status(400)
-    const schedule = body.schedule
+    const scheduleRequest = new ScheduleRequest(body)
+    const schedule = scheduleRequest.schedule
     const name = body.name
 
     if (!id) {
