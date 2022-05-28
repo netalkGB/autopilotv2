@@ -47,12 +47,12 @@ export class ScheduleService {
       if (schedule) {
         updateColumn = {
           ...updateColumn,
-          _schedule: schedule
+          schedule: schedule
         }
         if (name) {
           updateColumn = {
             ...updateColumn,
-            _name: name
+            name: name
           }
         }
       }
