@@ -1,6 +1,7 @@
 import { DataSource } from 'typeorm'
 import { History } from '../entity/History'
 import { Schedule } from '../entity/Schedule'
+import { Pilot } from '../entity/Pilot'
 
 export class ScheduleService {
     private appDataSource: DataSource;
@@ -34,7 +35,11 @@ export class ScheduleService {
     }
 
     public async deleteSchedule (id: string) {
-      await this.appDataSource.createQueryBuilder().delete().from(Schedule).where('id = :id', { id }).execute()
+      await this.appDataSource.manager.transaction(async entityManager => {
+        await entityManager.createQueryBuilder().delete().from(Schedule).where('id = :id', { id }).execute()
+        await entityManager.createQueryBuilder().delete().from(Pilot).where('schedule_id = :id', { id }).execute()
+        await entityManager.createQueryBuilder().delete().from(History).where('schedule_id = :id', { id }).execute()
+      })
     }
 
     public async updateSchedule (id: string, schedule: string, name: string) {
