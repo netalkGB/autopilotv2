@@ -8,7 +8,7 @@ services:
     container_name: ap_webpilot
     depends_on:
       - ap_proxy
-      - postgres
+      - ap_postgres
     build: ./webpilot
     tty: true
     ports:
