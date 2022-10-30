@@ -8,9 +8,9 @@
 <% if (data.error) {%>ERROR<% } %>
 <form method="POST" action="./login">
     <div>
-        <span>ID:</span>
+        <span>メールアドレス:</span>
         <label>
-            <input type="text" name="id">
+            <input type="text" name="email">
         </label>
     </div>
     <input type="hidden" name="csrfToken" value="<%= data.csrfToken %>">
