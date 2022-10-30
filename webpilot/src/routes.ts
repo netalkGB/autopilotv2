@@ -8,6 +8,7 @@ import { discordConfigPutController } from './controller/DiscordConfigPutControl
 import { discordConfigDeleteController } from './controller/DiscordConfigDeleteController'
 import { indexPageGetController } from './controller/IndexPageGetController'
 import { loginPageGetController } from './controller/LoginPageGetController'
+import { loginPagePostController } from './controller/LoginPagePostController'
 
 export const appRoutes = [
   {
@@ -19,6 +20,11 @@ export const appRoutes = [
     path: '/login',
     method: 'get',
     controller: loginPageGetController
+  },
+  {
+    path: '/login',
+    method: 'post',
+    controller: loginPagePostController
   },
   {
     path: '/schedule',
