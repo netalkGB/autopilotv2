@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const ESlintWebpackPlugin = require("eslint-webpack-plugin");
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = (_, argv) => {
   const mode = argv.mode === 'development' ? 'development' : 'production'
@@ -59,6 +60,11 @@ module.exports = (_, argv) => {
           new ESlintWebpackPlugin({
             extensions: ["js", "ts"],
             fix: true
+          }),
+          new CopyWebpackPlugin({
+            patterns: [
+              { from: 'src/views', to: 'views' }
+            ]
           })
         ],
     };
