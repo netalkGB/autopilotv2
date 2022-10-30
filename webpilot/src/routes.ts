@@ -6,8 +6,14 @@ import { schedulePutController } from './controller/SchedulePutController'
 import { discordConfigGetController } from './controller/DiscordConfigGetController'
 import { discordConfigPutController } from './controller/DiscordConfigPutController'
 import { discordConfigDeleteController } from './controller/DiscordConfigDeleteController'
+import { indexPageGetController } from './controller/IndexPageGetController'
 
 export const appRoutes = [
+  {
+    path: '/',
+    method: 'get',
+    controller: indexPageGetController
+  },
   {
     path: '/schedule',
     method: 'get',
