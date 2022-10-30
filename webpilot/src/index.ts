@@ -1,6 +1,7 @@
 import { AppDataSource } from './AppDataSource'
 import { appRoutes } from './routes'
 import express, { NextFunction, Request, Response } from 'express'
+import session from 'express-session'
 import schedule from 'node-schedule'
 import log4js from 'log4js'
 import { ServerConfig } from './ServerConfig'
@@ -11,6 +12,24 @@ import { ScheduleServiceImpl } from './service/ScheduleServiceImpl'
 import { PilotServiceImpl } from './service/PilotServiceImpl'
 import { RSSServiceImpl } from './service/RSSServiceImpl'
 import { NotificationServiceImpl } from './service/NotificationServiceImpl'
+
+declare module 'express-session' {
+  // eslint-disable-next-line no-unused-vars
+  interface Session {
+    username: string,
+    csrfToken: string,
+    authorizeInfo: {
+      responseType: string,
+      scope : string,
+      clientId : string,
+      redirectUri : string,
+      state: string,
+      codeChallengeMethod: string,
+      codeChallenge: string,
+      nonce: string
+    }
+  }
+}
 
 const logger = log4js.getLogger('app')
 logger.level = 'all'
@@ -34,7 +53,16 @@ async function main () {
       }
       next()
     })
-
+    app.use(session({
+      secret: '(＾▽＾／)',
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        httpOnly: true,
+        secure: false,
+        maxAge: 1000 * 60 * 30
+      }
+    }))
     app.use(express.urlencoded({ extended: true }))
     appRoutes.forEach(route => {
       // @ts-ignore
