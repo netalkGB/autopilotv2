@@ -7,12 +7,18 @@ import { discordConfigGetController } from './controller/DiscordConfigGetControl
 import { discordConfigPutController } from './controller/DiscordConfigPutController'
 import { discordConfigDeleteController } from './controller/DiscordConfigDeleteController'
 import { indexPageGetController } from './controller/IndexPageGetController'
+import { loginPageGetController } from './controller/LoginPageGetController'
 
 export const appRoutes = [
   {
     path: '/',
     method: 'get',
     controller: indexPageGetController
+  },
+  {
+    path: '/login',
+    method: 'get',
+    controller: loginPageGetController
   },
   {
     path: '/schedule',
