@@ -2,6 +2,7 @@ import { AppDataSource } from './AppDataSource'
 import { appRoutes } from './routes'
 import express, { NextFunction, Request, Response } from 'express'
 import session from 'express-session'
+import ejs from 'ejs'
 import schedule from 'node-schedule'
 import log4js from 'log4js'
 import { ServerConfig } from './ServerConfig'
@@ -63,6 +64,10 @@ async function main () {
         maxAge: 1000 * 60 * 30
       }
     }))
+    app.set('view engine', 'ejs')
+    app.set('views', './out/views') // webpack使わず動かすなら見直す
+    // @ts-ignore
+    app.engine('ejs', ejs.__express) // webpack使わず動かすなら見直す
     app.use(express.urlencoded({ extended: true }))
     appRoutes.forEach(route => {
       // @ts-ignore
