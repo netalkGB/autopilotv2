@@ -1,4 +1,17 @@
 {
     "port": 58000,
-    "proxyUrl": "http://localhost:53000/request"
+    "proxyUrl": "http://localhost:53000/request",
+    "mailConfig": {
+        "nodemailer": {
+            "host": "????.????.???.???",
+            "port": 587,
+            "secure": false,
+            "requireTLS": true,
+            "auth": {
+                "user": "????@????.???",
+                "pass": "??????"
+            }
+        },
+        "fromAddr": "?????@????.???"
+    }
 }
