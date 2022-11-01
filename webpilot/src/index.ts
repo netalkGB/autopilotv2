@@ -40,6 +40,7 @@ main()
 async function main () {
   ServerConfig.port = config?.port
   ServerConfig.proxyUrl = config?.proxyUrl
+  ServerConfig.mailConfig = config?.mailConfig
 
   const port = ServerConfig?.port
 
