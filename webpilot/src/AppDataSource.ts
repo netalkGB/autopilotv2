@@ -1,9 +1,9 @@
 import 'reflect-metadata'
 import { DataSource } from 'typeorm'
-import { History } from './entity/History'
-import { Pilot } from './entity/Pilot'
-import { Schedule } from './entity/Schedule'
-import { Config } from './entity/Config'
+import { History } from './entity/autopilot/History'
+import { Pilot } from './entity/autopilot/Pilot'
+import { Schedule } from './entity/autopilot/Schedule'
+import { Config } from './entity/autopilot/Config'
 import dbConfig from '../dbConfig.json'
 
 const {

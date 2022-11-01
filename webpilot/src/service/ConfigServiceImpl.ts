@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm'
-import { Config } from '../entity/Config'
+import { Config } from '../entity/autopilot/Config'
 
 export class ConfigServiceImpl {
   private appDataSource: DataSource

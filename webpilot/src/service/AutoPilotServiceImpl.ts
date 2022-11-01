@@ -2,7 +2,7 @@ import { ScheduleService } from './ScheduleService'
 import { PilotService } from './PilotService'
 import log4js from 'log4js'
 import { RSSService } from './RSSService'
-import { Pilot } from '../entity/Pilot'
+import { Pilot } from '../entity/autopilot/Pilot'
 import { NotificationService } from './NotificationService'
 import { AutoPilotService } from './AutoPilotService'
 
