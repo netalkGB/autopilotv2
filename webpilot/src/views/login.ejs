@@ -5,12 +5,14 @@
     <title>login</title>
 </head>
 <body>
-<% if (data.error) {%>ERROR<% } %>
+<% if (data.error) {%>
+    <%= data.message %>
+<% } %>
 <form method="POST" action="./login">
     <div>
-        <span>メールアドレス:</span>
+        <span>ID:</span>
         <label>
-            <input type="text" name="email">
+            <input type="text" name="id">
         </label>
     </div>
     <input type="hidden" name="csrfToken" value="<%= data.csrfToken %>">
