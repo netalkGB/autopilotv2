@@ -1,8 +1,8 @@
-import { Column, Entity } from 'typeorm'
+import { Column, Entity, PrimaryColumn } from 'typeorm'
 
 @Entity({ name: 'client' })
 export class Client {
-  @Column({ name: 'client_id', unique: true })
+  @PrimaryColumn({ name: 'client_id', unique: true })
   clientId: string
 
   @Column({ name: 'client_secret' })

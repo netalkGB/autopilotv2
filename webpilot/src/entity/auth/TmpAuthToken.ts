@@ -1,8 +1,8 @@
-import { Column, Entity } from 'typeorm'
+import { Column, Entity, PrimaryColumn } from 'typeorm'
 
 @Entity({ name: 'tmp_auth_token' })
 export class TmpAuthToken {
-  @Column({ name: 'email' })
+  @PrimaryColumn({ name: 'email' })
   email: string
 
   @Column({ name: 'token' })

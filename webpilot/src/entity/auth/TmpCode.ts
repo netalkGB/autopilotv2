@@ -1,8 +1,8 @@
-import { Column, Entity } from 'typeorm'
+import { Column, Entity, PrimaryColumn } from 'typeorm'
 
 @Entity({ name: 'tmp_code' })
 export class TmpCode {
-  @Column({ name: 'code', unique: true })
+  @PrimaryColumn({ name: 'code', unique: true })
   code: string
 
   @Column({ name: 'client_id' })
