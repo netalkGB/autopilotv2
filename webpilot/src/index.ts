@@ -17,7 +17,8 @@ import { NotificationServiceImpl } from './service/NotificationServiceImpl'
 declare module 'express-session' {
   // eslint-disable-next-line no-unused-vars
   interface Session {
-    username: string,
+    userId: string,
+    preLoginId: string,
     csrfToken: string,
     authorizeInfo: {
       responseType: string,
