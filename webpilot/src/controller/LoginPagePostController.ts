@@ -45,7 +45,7 @@ export const loginPagePostController = async (request: Request, response: Respon
   authToken.email = user.email
   authToken.userId = id
   authToken.created = new Date()
-  authToken.token = token
+  authToken.token = AppUtils.hashOtp(token)
   authToken.expireInS = 30
 
   await authTokenService.saveAuthToken(authToken)

@@ -23,7 +23,7 @@ export const otpCheckPostController = async (request: Request, response: Respons
   }
   const csrfToken = AppUtils.generateUUID()
   request.session.csrfToken = csrfToken
-  if (authToken.token !== request.body.otp) {
+  if (authToken.token !== AppUtils.hashOtp(request.body.otp)) {
     logger.info('otp is unmatched. ')
     response.render('otpcheck', { data: { error: true, csrfToken } })
     return
