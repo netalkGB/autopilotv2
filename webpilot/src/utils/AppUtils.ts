@@ -1,5 +1,5 @@
 import randomstring from 'randomstring'
-import { randomUUID } from 'crypto'
+import { randomUUID, createHash } from 'crypto'
 
 export class AppUtils {
   public static generateUUID (): string {
@@ -10,7 +10,15 @@ export class AppUtils {
     return this.generateRandomString(8)
   }
 
+  public static hashOtp (otp: string): string {
+    return this.hashString(otp)
+  }
+
   public static generateRandomString (length: number): string {
     return randomstring.generate(length)
+  }
+
+  public static hashString (str: string): string {
+    return createHash('sha512').update(str).digest('hex')
   }
 }
