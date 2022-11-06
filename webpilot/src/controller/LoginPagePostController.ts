@@ -2,10 +2,10 @@ import { Request, Response } from 'express'
 import log4js from 'log4js'
 import { AppDataSource } from '../AppDataSource'
 import { AppUtils } from '../utils/AppUtils'
-import { MailServiceImpl } from '../service/MailServiceImpl'
+import { MailServiceImpl } from '../service/autopilot/MailServiceImpl'
 import { TmpAuthToken } from '../entity/auth/TmpAuthToken'
-import { UserServiceImpl } from '../service/UserServiceImpl'
-import { AuthTokenServiceImpl } from '../service/AuthTokenServiceImpl'
+import { UserServiceImpl } from '../service/auth/UserServiceImpl'
+import { AuthTokenServiceImpl } from '../service/auth/AuthTokenServiceImpl'
 
 const logger = log4js.getLogger('app')
 

@@ -1,4 +1,4 @@
-import { Pilot } from '../entity/autopilot/Pilot'
+import { Pilot } from '../../entity/autopilot/Pilot'
 
 export interface PilotService {
   getPilot(): Promise<Pilot[]>

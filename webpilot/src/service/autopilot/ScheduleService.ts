@@ -1,5 +1,5 @@
-import { Schedule } from '../entity/autopilot/Schedule'
-import { History } from '../entity/autopilot/History'
+import { Schedule } from '../../entity/autopilot/Schedule'
+import { History } from '../../entity/autopilot/History'
 
 export interface ScheduleService {
   getSchedule(): Promise<Schedule[]>

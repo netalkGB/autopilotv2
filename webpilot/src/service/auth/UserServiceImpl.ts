@@ -1,5 +1,5 @@
 import { UserService } from './UserService'
-import { User } from '../entity/auth/User'
+import { User } from '../../entity/auth/User'
 import { DataSource, Repository } from 'typeorm'
 
 export class UserServiceImpl implements UserService {

@@ -1,10 +1,10 @@
 import { Request, Response } from 'express'
 import { AppDataSource } from '../AppDataSource'
-import { ScheduleServiceImpl } from '../service/ScheduleServiceImpl'
+import { ScheduleServiceImpl } from '../service/autopilot/ScheduleServiceImpl'
 import log4js from 'log4js'
 import { ScheduleValidator } from '../validator/ScheduleValidator'
 import { Schedule } from '../entity/autopilot/Schedule'
-import { RSSServiceImpl } from '../service/RSSServiceImpl'
+import { RSSServiceImpl } from '../service/autopilot/RSSServiceImpl'
 import { ServerConfig } from '../ServerConfig'
 import { ScheduleRequest } from '../model/ScheduleRequest'
 

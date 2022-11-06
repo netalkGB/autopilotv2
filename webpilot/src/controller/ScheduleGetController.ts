@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { AppDataSource } from '../AppDataSource'
-import { ScheduleServiceImpl } from '../service/ScheduleServiceImpl'
+import { ScheduleServiceImpl } from '../service/autopilot/ScheduleServiceImpl'
 import log4js from 'log4js'
 import { ScheduleResponse } from '../model/ScheduleResponse'
 

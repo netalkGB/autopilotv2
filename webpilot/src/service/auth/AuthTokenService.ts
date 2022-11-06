@@ -1,4 +1,4 @@
-import { TmpAuthToken } from '../entity/auth/TmpAuthToken'
+import { TmpAuthToken } from '../../entity/auth/TmpAuthToken'
 
 export interface AuthTokenService {
   getAuthTokenByUserId (userId: string): Promise<TmpAuthToken | null>

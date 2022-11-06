@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { AppDataSource } from '../AppDataSource'
 import log4js from 'log4js'
-import { ConfigServiceImpl } from '../service/ConfigServiceImpl'
+import { ConfigServiceImpl } from '../service/autopilot/ConfigServiceImpl'
 import { DiscordConfigResponse } from '../model/DiscordConfigResponse'
 
 const logger = log4js.getLogger('app')

@@ -7,12 +7,12 @@ import schedule from 'node-schedule'
 import log4js from 'log4js'
 import { ServerConfig } from './ServerConfig'
 import config from '../config.json'
-import { ConfigServiceImpl } from './service/ConfigServiceImpl'
-import { AutoPilotServiceImpl } from './service/AutoPilotServiceImpl'
-import { ScheduleServiceImpl } from './service/ScheduleServiceImpl'
-import { PilotServiceImpl } from './service/PilotServiceImpl'
-import { RSSServiceImpl } from './service/RSSServiceImpl'
-import { NotificationServiceImpl } from './service/NotificationServiceImpl'
+import { ConfigServiceImpl } from './service/autopilot/ConfigServiceImpl'
+import { AutoPilotServiceImpl } from './service/autopilot/AutoPilotServiceImpl'
+import { ScheduleServiceImpl } from './service/autopilot/ScheduleServiceImpl'
+import { PilotServiceImpl } from './service/autopilot/PilotServiceImpl'
+import { RSSServiceImpl } from './service/autopilot/RSSServiceImpl'
+import { NotificationServiceImpl } from './service/autopilot/NotificationServiceImpl'
 
 declare module 'express-session' {
   // eslint-disable-next-line no-unused-vars

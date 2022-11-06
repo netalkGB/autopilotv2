@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm'
-import { Pilot } from '../entity/autopilot/Pilot'
-import { History } from '../entity/autopilot/History'
+import { Pilot } from '../../entity/autopilot/Pilot'
+import { History } from '../../entity/autopilot/History'
 import { PilotService } from './PilotService'
 
 export class PilotServiceImpl implements PilotService {

@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import log4js from 'log4js'
 import { AppDataSource } from '../AppDataSource'
 import { AppUtils } from '../utils/AppUtils'
-import { AuthTokenServiceImpl } from '../service/AuthTokenServiceImpl'
+import { AuthTokenServiceImpl } from '../service/auth/AuthTokenServiceImpl'
 
 const logger = log4js.getLogger('app')
 

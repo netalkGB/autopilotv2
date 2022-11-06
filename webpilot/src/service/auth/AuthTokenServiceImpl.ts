@@ -1,5 +1,5 @@
 import { AuthTokenService } from './AuthTokenService'
-import { TmpAuthToken } from '../entity/auth/TmpAuthToken'
+import { TmpAuthToken } from '../../entity/auth/TmpAuthToken'
 import { DataSource, EntityManager, Repository } from 'typeorm'
 
 export class AuthTokenServiceImpl implements AuthTokenService {

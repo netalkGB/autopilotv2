@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm'
-import { History } from '../entity/autopilot/History'
-import { Schedule } from '../entity/autopilot/Schedule'
-import { Pilot } from '../entity/autopilot/Pilot'
+import { History } from '../../entity/autopilot/History'
+import { Schedule } from '../../entity/autopilot/Schedule'
+import { Pilot } from '../../entity/autopilot/Pilot'
 import { ScheduleService } from './ScheduleService'
 
 export class ScheduleServiceImpl implements ScheduleService {
