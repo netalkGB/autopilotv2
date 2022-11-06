@@ -9,6 +9,8 @@ import { discordConfigDeleteController } from './controller/DiscordConfigDeleteC
 import { indexPageGetController } from './controller/IndexPageGetController'
 import { loginPageGetController } from './controller/LoginPageGetController'
 import { loginPagePostController } from './controller/LoginPagePostController'
+import { otpCheckGetController } from './controller/OtpCheckGetController'
+import { otpCheckPostController } from './controller/OtpCheckPostController'
 
 export const appRoutes = [
   {
@@ -25,6 +27,16 @@ export const appRoutes = [
     path: '/login',
     method: 'post',
     controller: loginPagePostController
+  },
+  {
+    path: '/otpcheck',
+    method: 'get',
+    controller: otpCheckGetController
+  },
+  {
+    path: '/otpcheck',
+    method: 'post',
+    controller: otpCheckPostController
   },
   {
     path: '/schedule',
