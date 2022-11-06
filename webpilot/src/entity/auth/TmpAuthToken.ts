@@ -5,6 +5,9 @@ export class TmpAuthToken {
   @PrimaryColumn({ name: 'email' })
   email: string
 
+  @Column({ name: 'user_id' })
+  userId: string
+
   @Column({ name: 'token' })
   token: string
 

@@ -4,6 +4,7 @@ import { AppDataSource } from '../AppDataSource'
 import { User } from '../entity/auth/User'
 import { AppUtils } from '../utils/AppUtils'
 import { MailServiceImpl } from '../service/MailServiceImpl'
+import { TmpAuthToken } from '../entity/auth/TmpAuthToken'
 
 const logger = log4js.getLogger('app')
 
@@ -27,6 +28,7 @@ export const loginPagePostController = async (request: Request, response: Respon
   }
   // TODO: あとでサービスにする
   const userRepository = AppDataSource.getRepository(User)
+  // const tmpAuthTokenRepository = AppDataSource.getRepository(TmpAuthToken)
   const user = await userRepository.createQueryBuilder().select().where('id = :id', { id }).getOne()
   logger.debug(`user: ${JSON.stringify(user)}`)
   if (user === null) {
@@ -34,11 +36,22 @@ export const loginPagePostController = async (request: Request, response: Respon
     response.render('login', { data: { csrfToken, error: true, message: 'That id is not registered.' } })
     return
   }
-  const mailService = new MailServiceImpl(logger)
-  await mailService.send(user.email, 'autopilot authentication', `login code is ${AppUtils.generateLoginToken()}`)
-  // ユーザーIDをセッションに格納
-  request.session.username = user.id
+  const token = AppUtils.generateLoginToken()
 
-  response.redirect('/')
+  const authToken = new TmpAuthToken()
+  const mailService = new MailServiceImpl(logger)
+  await mailService.send(user.email, 'autopilot authentication', `login code is ${token}`)
+
+  authToken.email = user.email
+  authToken.userId = id
+  authToken.created = new Date()
+  authToken.token = token
+  authToken.expireInS = 30
+
+  await AppDataSource.manager.save(authToken)
+  // ユーザーIDをセッションに格納
+  request.session.preLoginId = user.id
+
+  response.redirect('/otpcheck')
   logger.info('end loginPagePostController')
 }
