@@ -1,8 +1,8 @@
 import { Request, Response } from 'express'
 import log4js from 'log4js'
 import { AppDataSource } from '../AppDataSource'
-import { TmpAuthToken } from '../entity/auth/TmpAuthToken'
 import { AppUtils } from '../utils/AppUtils'
+import { AuthTokenServiceImpl } from '../service/AuthTokenServiceImpl'
 
 const logger = log4js.getLogger('app')
 
@@ -14,9 +14,8 @@ export const otpCheckPostController = async (request: Request, response: Respons
     logger.info('end otpCheckController')
     return
   }
-  // TODO: あとでサービスにする
-  const authTokenRepository = AppDataSource.getRepository(TmpAuthToken)
-  const authToken = await authTokenRepository.createQueryBuilder().select().where('user_id = :id', { id: preLoginId }).getOne()
+  const authTokenService = new AuthTokenServiceImpl(AppDataSource)
+  const authToken = await authTokenService.getAuthTokenByUserId(preLoginId)
   if (!authToken) {
     response.send('error')
     logger.warn('authToken is not found')

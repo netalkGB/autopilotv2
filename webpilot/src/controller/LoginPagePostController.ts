@@ -1,10 +1,11 @@
 import { Request, Response } from 'express'
 import log4js from 'log4js'
 import { AppDataSource } from '../AppDataSource'
-import { User } from '../entity/auth/User'
 import { AppUtils } from '../utils/AppUtils'
 import { MailServiceImpl } from '../service/MailServiceImpl'
 import { TmpAuthToken } from '../entity/auth/TmpAuthToken'
+import { UserServiceImpl } from '../service/UserServiceImpl'
+import { AuthTokenServiceImpl } from '../service/AuthTokenServiceImpl'
 
 const logger = log4js.getLogger('app')
 
@@ -26,10 +27,9 @@ export const loginPagePostController = async (request: Request, response: Respon
     response.render('login', { data: { csrfToken, error: true, message: 'Please enter your id.' } })
     return
   }
-  // TODO: あとでサービスにする
-  const userRepository = AppDataSource.getRepository(User)
-  // const tmpAuthTokenRepository = AppDataSource.getRepository(TmpAuthToken)
-  const user = await userRepository.createQueryBuilder().select().where('id = :id', { id }).getOne()
+  const userService = new UserServiceImpl(AppDataSource)
+  const authTokenService = new AuthTokenServiceImpl(AppDataSource)
+  const user = await userService.getUserByUserId(id)
   logger.debug(`user: ${JSON.stringify(user)}`)
   if (user === null) {
     logger.info(`That id is not registered: ${id}`)
@@ -38,17 +38,17 @@ export const loginPagePostController = async (request: Request, response: Respon
   }
   const token = AppUtils.generateLoginToken()
 
-  const authToken = new TmpAuthToken()
   const mailService = new MailServiceImpl(logger)
   await mailService.send(user.email, 'autopilot authentication', `login code is ${token}`)
 
+  const authToken = new TmpAuthToken()
   authToken.email = user.email
   authToken.userId = id
   authToken.created = new Date()
   authToken.token = token
   authToken.expireInS = 30
 
-  await AppDataSource.manager.save(authToken)
+  await authTokenService.saveAuthToken(authToken)
   // ユーザーIDをセッションに格納
   request.session.preLoginId = user.id
 
