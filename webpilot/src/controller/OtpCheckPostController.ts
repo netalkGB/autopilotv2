@@ -3,6 +3,9 @@ import log4js from 'log4js'
 import { AppDataSource } from '../AppDataSource'
 import { AppUtils } from '../utils/AppUtils'
 import { AuthTokenServiceImpl } from '../service/auth/AuthTokenServiceImpl'
+import { MailServiceImpl } from '../service/autopilot/MailServiceImpl'
+import { AuthServiceImpl } from '../service/auth/AuthServiceImpl'
+import { UserServiceImpl } from '../service/auth/UserServiceImpl'
 
 const logger = log4js.getLogger('app')
 
@@ -25,7 +28,19 @@ export const otpCheckPostController = async (request: Request, response: Respons
   request.session.csrfToken = csrfToken
   if (authToken.token !== AppUtils.hashOtp(request.body.otp)) {
     logger.info('otp is unmatched. ')
-    response.render('otpcheck', { data: { error: true, csrfToken } })
+    const authTokenService = new AuthTokenServiceImpl(AppDataSource)
+    const mailService = new MailServiceImpl(logger)
+    const userService = new UserServiceImpl(AppDataSource)
+    const authService = new AuthServiceImpl(authTokenService, mailService)
+    const user = await userService.getUserByUserId(preLoginId)
+    if (user) {
+      logger.info('retry pre-login')
+      await authService.preLogin(user)
+      response.render('otpcheck', { data: { error: true, message: 'otp is incorrect.', csrfToken } })
+    } else {
+      logger.warn('retry pre-login: user not found')
+      response.redirect('/login')
+    }
     return
   }
 
