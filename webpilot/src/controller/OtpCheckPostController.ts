@@ -26,12 +26,13 @@ export const otpCheckPostController = async (request: Request, response: Respons
   }
   const csrfToken = AppUtils.generateUUID()
   request.session.csrfToken = csrfToken
+
+  const mailService = new MailServiceImpl(logger)
+  const userService = new UserServiceImpl(AppDataSource)
+  const authService = new AuthServiceImpl(authTokenService, mailService)
+
   if (authToken.token !== AppUtils.hashOtp(request.body.otp)) {
     logger.info('otp is unmatched. ')
-    const authTokenService = new AuthTokenServiceImpl(AppDataSource)
-    const mailService = new MailServiceImpl(logger)
-    const userService = new UserServiceImpl(AppDataSource)
-    const authService = new AuthServiceImpl(authTokenService, mailService)
     const user = await userService.getUserByUserId(preLoginId)
     if (user) {
       logger.info('retry pre-login')
@@ -49,7 +50,14 @@ export const otpCheckPostController = async (request: Request, response: Respons
 
   if (nowDate > dateLimit) {
     logger.info('otp is expired. ')
-    response.redirect('/login?error=expired')
+    const user = await userService.getUserByUserId(preLoginId)
+    if (user) {
+      logger.info('retry pre-login')
+      await authService.preLogin(user)
+      response.render('otpcheck', { data: { error: true, message: 'otp is expired.', csrfToken } })
+    } else {
+      response.redirect('/login')
+    }
     return
   }
 
