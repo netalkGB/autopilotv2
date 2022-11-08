@@ -1,8 +1,9 @@
 import nodemailer, { Transporter } from 'nodemailer'
 import log4js from 'log4js'
 import { ServerConfig } from '../../ServerConfig'
+import { MailService } from './MailService'
 
-export class MailServiceImpl {
+export class MailServiceImpl implements MailService {
   private transport: Transporter
   private logger: log4js.Logger
 
