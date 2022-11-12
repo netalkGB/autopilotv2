@@ -26,6 +26,9 @@
 <form method="POST" action="./otpcheck">
     <input type="hidden" name="resendmail" value="-">
     Not receiving OTP email?
+    <% if (data.to) {%>
+        <input type="hidden" name="to" value="<%= data.to %>">
+    <% } %>
     <input type="submit" value="Resend email.">
 </form>
 </body>
