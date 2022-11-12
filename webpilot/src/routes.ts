@@ -11,7 +11,7 @@ import { loginPageGetController } from './controller/LoginPageGetController'
 import { loginPagePostController } from './controller/LoginPagePostController'
 import { otpCheckGetController } from './controller/OtpCheckGetController'
 import { otpCheckPostController } from './controller/OtpCheckPostController'
-import { loginReleseGetController } from './controller/LoginReleaseGetController'
+import { loginReleaseGetController } from './controller/LoginReleaseGetController'
 
 export const appRoutes = [
   {
@@ -32,7 +32,7 @@ export const appRoutes = [
   {
     path: '/logout',
     method: 'get',
-    controller: loginReleseGetController
+    controller: loginReleaseGetController
   },
   {
     path: '/otpcheck',
