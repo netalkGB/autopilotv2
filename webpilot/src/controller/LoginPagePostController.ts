@@ -39,7 +39,7 @@ export const loginPagePostController = async (request: Request, response: Respon
   const authTokenService = new AuthTokenServiceImpl(AppDataSource)
   const mailService = new MailServiceImpl(logger)
 
-  const authService = new AuthServiceImpl(authTokenService, mailService)
+  const authService = new AuthServiceImpl(logger, authTokenService, mailService)
   await authService.preLogin(user)
   // ユーザーIDをセッションに格納
   request.session.preLoginId = user.id

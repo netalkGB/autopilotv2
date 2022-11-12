@@ -20,7 +20,7 @@ export const otpCheckPostController = async (request: Request, response: Respons
   const authTokenService = new AuthTokenServiceImpl(AppDataSource)
   const mailService = new MailServiceImpl(logger)
   const userService = new UserServiceImpl(AppDataSource)
-  const authService = new AuthServiceImpl(authTokenService, mailService)
+  const authService = new AuthServiceImpl(logger, authTokenService, mailService)
   const user = await userService.getUserByUserId(preLoginId)
 
   const csrfToken = AppUtils.generateUUID()
