@@ -13,6 +13,7 @@ import { TmpLoginToken } from './entity/auth/TmpLoginToken'
 import { TmpRefreshToken } from './entity/auth/TmpRefreshToken'
 import { User } from './entity/auth/User'
 import { UserInfo } from './entity/auth/UserInfo'
+import { TmpAuthTokenHistory } from './entity/auth/TmpAuthTokenHistory'
 
 const {
   host,
@@ -39,6 +40,7 @@ export const AppDataSource = new DataSource({
     Client,
     TmpAccessToken,
     TmpAuthToken,
+    TmpAuthTokenHistory,
     TmpCode,
     TmpLoginToken,
     TmpRefreshToken,
