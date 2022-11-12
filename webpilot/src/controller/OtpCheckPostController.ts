@@ -18,22 +18,34 @@ export const otpCheckPostController = async (request: Request, response: Respons
     return
   }
   const authTokenService = new AuthTokenServiceImpl(AppDataSource)
+  const mailService = new MailServiceImpl(logger)
+  const userService = new UserServiceImpl(AppDataSource)
+  const authService = new AuthServiceImpl(authTokenService, mailService)
+  const user = await userService.getUserByUserId(preLoginId)
+
+  const csrfToken = AppUtils.generateUUID()
+  request.session.csrfToken = csrfToken
+
+  if (request.body.resendmail) {
+    if (user) {
+      await authService.preLogin(user)
+    } else {
+      logger.warn('resend: user not found')
+      response.redirect('/login')
+    }
+    response.render('otpcheck', { data: { error: false, csrfToken } })
+    return
+  }
+
   const authToken = await authTokenService.getAuthTokenByUserId(preLoginId)
   if (!authToken) {
     response.send('error')
     logger.warn('authToken is not found')
     return
   }
-  const csrfToken = AppUtils.generateUUID()
-  request.session.csrfToken = csrfToken
-
-  const mailService = new MailServiceImpl(logger)
-  const userService = new UserServiceImpl(AppDataSource)
-  const authService = new AuthServiceImpl(authTokenService, mailService)
 
   if (authToken.token !== AppUtils.hashOtp(request.body.otp)) {
     logger.info('otp is unmatched. ')
-    const user = await userService.getUserByUserId(preLoginId)
     if (user) {
       logger.info('retry pre-login')
       await authService.preLogin(user)
@@ -50,7 +62,6 @@ export const otpCheckPostController = async (request: Request, response: Respons
 
   if (nowDate > dateLimit) {
     logger.info('otp is expired. ')
-    const user = await userService.getUserByUserId(preLoginId)
     if (user) {
       logger.info('retry pre-login')
       await authService.preLogin(user)
