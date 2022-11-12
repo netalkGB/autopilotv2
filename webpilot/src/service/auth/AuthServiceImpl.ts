@@ -33,7 +33,7 @@ export class AuthServiceImpl implements AuthService {
     }
 
     const token = AppUtils.generateLoginToken()
-    await this.mailService.send(user.email, 'autopilot authentication', `login code is ${token}`)
+    await this.mailService.send(user.email, 'Autopilot login code verification', `Your Autopilot login code is: ${token}\nDon't share it with anyone.`)
 
     const authToken = new TmpAuthToken()
     authToken.email = user.email
