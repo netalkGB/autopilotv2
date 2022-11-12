@@ -15,10 +15,14 @@ export class MailServiceImpl implements MailService {
 
   public async send (to: string, subject: string, text: string): Promise<boolean> {
     try {
-      const from = ServerConfig.mailConfig.fromAddr
-      this.logger.info(`MailService#send() from:${from}, to:${to}, subject:${subject}, text:${text}`)
+      const address = ServerConfig.mailConfig.fromAddr
+      const name = ServerConfig.mailConfig.fromName
+      this.logger.info(`MailService#send() address:${address}, name:${name}, to:${to}, subject:${subject}, text:${text}`)
       await this.transport.sendMail({
-        from,
+        from: {
+          name,
+          address
+        },
         to,
         subject,
         text
