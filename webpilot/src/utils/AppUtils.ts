@@ -14,6 +14,14 @@ export class AppUtils {
     return this.hashString(otp)
   }
 
+  public static urlEncode (str: string): string {
+    return encodeURIComponent(str)
+  }
+
+  public static urlDecode (str: string): string {
+    return decodeURIComponent(str)
+  }
+
   public static generateRandomString (length: number): string {
     return randomstring.generate(length)
   }
