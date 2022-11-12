@@ -10,6 +10,11 @@ export const loginPageGetController = async (request: Request, response: Respons
   const csrfToken = AppUtils.generateUUID()
   // CSRFトークンをセッションに保存
   request.session.csrfToken = csrfToken
-  response.render('login', { data: { error: false, csrfToken } })
+
+  if (request.query.to) {
+    response.render('login', { data: { error: false, csrfToken, to: request.query.to } })
+  } else {
+    response.render('login', { data: { error: false, csrfToken } })
+  }
   logger.info('end indexPageGetController')
 }

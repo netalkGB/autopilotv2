@@ -31,9 +31,14 @@ export const otpCheckPostController = async (request: Request, response: Respons
       await authService.preLogin(user)
     } else {
       logger.warn('resend: user not found')
-      response.redirect('/login')
+      redirectToLogin()
+      return
     }
-    response.render('otpcheck', { data: { error: false, csrfToken } })
+    if (request.body.to) {
+      response.render('otpcheck', { data: { error: false, csrfToken, to: request.body.to } })
+    } else {
+      response.render('otpcheck', { data: { error: false, csrfToken } })
+    }
     return
   }
 
@@ -49,10 +54,14 @@ export const otpCheckPostController = async (request: Request, response: Respons
     if (user) {
       logger.info('retry pre-login')
       await authService.preLogin(user)
-      response.render('otpcheck', { data: { error: true, message: 'otp is incorrect.', csrfToken } })
+      if (request.body.to) {
+        response.render('otpcheck', { data: { error: true, message: 'otp is incorrect.', csrfToken, to: request.body.to } })
+      } else {
+        response.render('otpcheck', { data: { error: true, message: 'otp is incorrect.', csrfToken } })
+      }
     } else {
       logger.warn('retry pre-login: user not found')
-      response.redirect('/login')
+      redirectToLogin()
     }
     return
   }
@@ -65,9 +74,13 @@ export const otpCheckPostController = async (request: Request, response: Respons
     if (user) {
       logger.info('retry pre-login')
       await authService.preLogin(user)
-      response.render('otpcheck', { data: { error: true, message: 'otp is expired.', csrfToken } })
+      if (request.body.to) {
+        response.render('otpcheck', { data: { error: true, message: 'otp is expired.', csrfToken, to: request.body.to } })
+      } else {
+        response.render('otpcheck', { data: { error: true, message: 'otp is expired.', csrfToken } })
+      }
     } else {
-      response.redirect('/login')
+      redirectToLogin()
     }
     return
   }
@@ -75,8 +88,24 @@ export const otpCheckPostController = async (request: Request, response: Respons
   await sessionRegenerate(request) // セッションIDは再生成する
   request.session.userId = preLoginId
 
-  response.redirect('/') // TODO: toに遷移できるべき
+  redirectToTo()
   logger.info('end otpCheckPostController')
+
+  function redirectToLogin () {
+    if (request.body.to) {
+      response.redirect(`/login?to=${AppUtils.urlDecode(request.body.to)}`)
+    } else {
+      response.redirect('/login')
+    }
+  }
+
+  function redirectToTo () {
+    if (request.body.to) {
+      response.redirect(AppUtils.urlDecode(request.body.to))
+    } else {
+      response.redirect('/')
+    }
+  }
 }
 
 function sessionRegenerate (request: Request) {

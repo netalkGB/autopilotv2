@@ -24,7 +24,7 @@ export const loginPagePostController = async (request: Request, response: Respon
   const id = request.body.id
   logger.debug(`id: ${id}`)
   if (!id) {
-    response.render('login', { data: { csrfToken, error: true, message: 'Please enter your id.' } })
+    response.render('login', { data: { csrfToken, error: true, message: 'Please enter your id.', to: request.body.to } })
     return
   }
   const userService = new UserServiceImpl(AppDataSource)
@@ -32,7 +32,7 @@ export const loginPagePostController = async (request: Request, response: Respon
   logger.debug(`user: ${JSON.stringify(user)}`)
   if (user === null) {
     logger.info(`That id is not registered: ${id}`)
-    response.render('login', { data: { csrfToken, error: true, message: 'That id is not registered.' } })
+    response.render('login', { data: { csrfToken, error: true, message: 'That id is not registered.', to: request.body.to } })
     return
   }
 
@@ -44,6 +44,10 @@ export const loginPagePostController = async (request: Request, response: Respon
   // ユーザーIDをセッションに格納
   request.session.preLoginId = user.id
 
-  response.redirect('/otpcheck')
+  if (request.body.to) {
+    response.redirect(`/otpcheck?to=${AppUtils.urlDecode(request.body.to)}`)
+  } else {
+    response.redirect('/otpcheck')
+  }
   logger.info('end loginPagePostController')
 }

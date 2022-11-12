@@ -16,7 +16,11 @@ export const otpCheckGetController = async (request: Request, response: Response
     return
   }
 
-  response.render('otpcheck', { data: { error: false, csrfToken } })
+  if (request.query.to) {
+    response.render('otpcheck', { data: { error: false, csrfToken, to: request.query.to } })
+  } else {
+    response.render('otpcheck', { data: { error: false, csrfToken } })
+  }
 
   logger.info('end otpCheckGetController')
 }
