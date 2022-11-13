@@ -5,23 +5,23 @@
     <title>login</title>
 </head>
 <body>
-<% if (data.error) {%>
-    <%= data.message %>
-<% } %>
-<form method="POST" action="./login">
-    <div>
-        <span>ID:</span>
-        <label>
-            <input type="text" name="id">
-        </label>
-    </div>
-    <input type="hidden" name="csrfToken" value="<%= data.csrfToken %>">
-    <% if (data.to) {%>
-        <input type="hidden" name="to" value="<%= data.to %>">
+    <% if (data.error) { %>
+        <%= data.message %>
     <% } %>
-    <div>
-        <input type="submit" value="LOGIN">
-    </div>
-</form>
+    <form method="POST" action="./login">
+        <div>
+            <span>ID:</span>
+            <label>
+                <input type="text" name="id">
+            </label>
+        </div>
+        <input type="hidden" name="csrfToken" value="<%= data.csrfToken %>">
+        <% if (data.to) { %>
+            <input type="hidden" name="to" value="<%= data.to %>">
+        <% } %>
+        <div>
+            <input type="submit" value="LOGIN">
+        </div>
+    </form>
 </body>
 </html>

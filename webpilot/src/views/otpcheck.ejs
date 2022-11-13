@@ -5,31 +5,31 @@
     <title>login</title>
 </head>
 <body>
-<% if (data.error) {%>
-    <%= data.message %>
-<% } %>
-<form method="POST" action="./otpcheck">
-    <div>
-        <span>OTP:</span>
-        <label>
-            <input type="text" name="otp">
-        </label>
-    </div>
-    <input type="hidden" name="csrfToken" value="<%= data.csrfToken %>">
-    <% if (data.to) {%>
-        <input type="hidden" name="to" value="<%= data.to %>">
+    <% if (data.error) { %>
+        <%= data.message %>
     <% } %>
-    <div>
-        <input type="submit" value="LOGIN">
-    </div>
-</form>
-<form method="POST" action="./otpcheck">
-    <input type="hidden" name="resendmail" value="-">
-    Not receiving OTP email?
-    <% if (data.to) {%>
-        <input type="hidden" name="to" value="<%= data.to %>">
-    <% } %>
-    <input type="submit" value="Resend email.">
-</form>
+    <form method="POST" action="./otpcheck">
+        <div>
+            <span>OTP:</span>
+            <label>
+                <input type="text" name="otp">
+            </label>
+        </div>
+        <input type="hidden" name="csrfToken" value="<%= data.csrfToken %>">
+        <% if (data.to) { %>
+            <input type="hidden" name="to" value="<%= data.to %>">
+        <% } %>
+        <div>
+            <input type="submit" value="LOGIN">
+        </div>
+    </form>
+    <form method="POST" action="./otpcheck">
+        <input type="hidden" name="resendmail" value="-">
+        Not receiving OTP email?
+        <% if (data.to) { %>
+            <input type="hidden" name="to" value="<%= data.to %>">
+        <% } %>
+        <input type="submit" value="Resend email.">
+    </form>
 </body>
 </html>
