@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>test</title>
+</head>
+<body>
+    Do you approve?<br>
+    <div>
+        scope<br>
+        <%= (data.scope.includes('r') && 'read') %><br>
+        <%= (data.scope.includes('w') && 'write') %><br>
+        <%= (data.scope.includes('openid') && 'openid') %><br>
+    </div>
+    <form action="/approve" method="post">
+        <button name="approve" type="submit" value="yes">Approve</button>
+        <button name="approve" type="submit" value="no">Reject</button>
+        <input type="hidden" name="csrfToken" value="<%= data.csrfToken %>">
+    </form>
+</body>
+</html>
