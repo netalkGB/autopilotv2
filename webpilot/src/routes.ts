@@ -12,6 +12,7 @@ import { loginPagePostController } from './controller/LoginPagePostController'
 import { otpCheckGetController } from './controller/OtpCheckGetController'
 import { otpCheckPostController } from './controller/OtpCheckPostController'
 import { loginReleaseGetController } from './controller/LoginReleaseGetController'
+import { authorizePageGetController } from './controller/AuthorizePageGetController'
 
 export const appRoutes = [
   {
@@ -43,6 +44,11 @@ export const appRoutes = [
     path: '/otpcheck',
     method: 'post',
     controller: otpCheckPostController
+  },
+  {
+    path: '/authorize',
+    method: 'get',
+    controller: authorizePageGetController
   },
   {
     path: '/schedule',
