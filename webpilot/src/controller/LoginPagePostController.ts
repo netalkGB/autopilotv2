@@ -45,7 +45,7 @@ export const loginPagePostController = async (request: Request, response: Respon
   request.session.preLoginId = user.id
 
   if (request.body.to) {
-    response.redirect(`/otpcheck?to=${AppUtils.urlDecode(request.body.to)}`)
+    response.redirect(`/otpcheck?to=${AppUtils.urlEncode(request.body.to)}`)
   } else {
     response.redirect('/otpcheck')
   }
