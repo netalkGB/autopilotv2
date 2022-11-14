@@ -22,6 +22,10 @@ export class AppUtils {
     return Buffer.from(base64Str, 'base64').toString()
   }
 
+  public static generateS256CodeChallenge (codeVerifier: string): string {
+    const b64ToB64Url = (b64: string) => b64.replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '')
+    return b64ToB64Url(crypto.createHash('sha256').update(codeVerifier).digest('base64'))
+  }
 
   public static urlEncode (str: string): string {
     return encodeURIComponent(str)
