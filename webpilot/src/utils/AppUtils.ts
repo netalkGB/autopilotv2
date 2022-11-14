@@ -14,17 +14,17 @@ export class AppUtils {
     return this.generateRandomString(8)
   }
 
+  public static generateS256CodeChallenge (codeVerifier: string): string {
+    const b64ToB64Url = (b64: string) => b64.replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '')
+    return b64ToB64Url(crypto.createHash('sha256').update(codeVerifier).digest('base64'))
+  }
+
   public static hashOtp (otp: string): string {
     return this.hashString(otp)
   }
 
   public static base64Decode (base64Str: string): string {
     return Buffer.from(base64Str, 'base64').toString()
-  }
-
-  public static generateS256CodeChallenge (codeVerifier: string): string {
-    const b64ToB64Url = (b64: string) => b64.replace(/\//g, '_').replace(/\+/g, '-').replace(/=/g, '')
-    return b64ToB64Url(crypto.createHash('sha256').update(codeVerifier).digest('base64'))
   }
 
   public static urlEncode (str: string): string {
