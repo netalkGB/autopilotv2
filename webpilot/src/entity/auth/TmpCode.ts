@@ -20,7 +20,7 @@ export class TmpCode {
   @Column({ name: 'code_challenge' })
   codeChallenge: string
 
-  @Column({ name: 'nonce' })
+  @Column({ name: 'nonce', nullable: true })
   nonce: string
 
   @Column({ name: 'created' })
