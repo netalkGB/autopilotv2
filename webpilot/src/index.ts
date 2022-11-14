@@ -20,7 +20,7 @@ declare module 'express-session' {
     userId: string,
     preLoginId: string,
     csrfToken: string,
-    authorizeInfo: {
+    authorizeInfo?: {
       responseType: string,
       scope : string,
       clientId : string,
