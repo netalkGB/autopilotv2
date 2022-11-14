@@ -10,6 +10,10 @@ export class AppUtils {
     return this.generateRandomString(8)
   }
 
+  public static generateApproveCode (): string {
+    return this.generateRandomString(8)
+  }
+
   public static hashOtp (otp: string): string {
     return this.hashString(otp)
   }
