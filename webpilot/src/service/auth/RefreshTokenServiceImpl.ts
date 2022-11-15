@@ -1,7 +1,8 @@
 import { TmpRefreshToken } from '../../entity/auth/TmpRefreshToken'
 import { DataSource, EntityManager, Repository } from 'typeorm'
+import { RefreshTokenService } from './RefreshTokenService'
 
-export class RefreshTokenService {
+export class RefreshTokenServiceImpl implements RefreshTokenService {
   private refreshTokenRepository: Repository<TmpRefreshToken>
   private entityManager: EntityManager
   constructor (appDataSource: DataSource) {
