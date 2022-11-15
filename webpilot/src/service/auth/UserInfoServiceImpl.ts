@@ -1,7 +1,8 @@
 import { UserInfo } from '../../entity/auth/UserInfo'
 import { DataSource, Repository } from 'typeorm'
+import { UserInfoService } from './UserInfoService'
 
-export class UserInfoService implements UserInfoService {
+export class UserInfoServiceImpl implements UserInfoService {
   private userInfoRepository: Repository<UserInfo>
   constructor (appDataSource: DataSource) {
     this.userInfoRepository = appDataSource.getRepository(UserInfo)
