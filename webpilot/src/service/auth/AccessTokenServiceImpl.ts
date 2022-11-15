@@ -1,7 +1,8 @@
 import { DataSource, EntityManager } from 'typeorm'
 import { TmpAccessToken } from '../../entity/auth/TmpAccessToken'
+import { AccessTokenService } from './AccessTokenService'
 
-export class AccessTokenService {
+export class AccessTokenServiceImpl implements AccessTokenService {
   private entityManager: EntityManager
   constructor (appDataSource: DataSource) {
     this.entityManager = appDataSource.manager
