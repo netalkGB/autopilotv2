@@ -39,9 +39,7 @@ logger.level = 'all'
 main()
 
 async function main () {
-  ServerConfig.port = config?.port
-  ServerConfig.proxyUrl = config?.proxyUrl
-  ServerConfig.mailConfig = config?.mailConfig
+  loadConfig()
 
   const port = ServerConfig?.port
 
@@ -113,4 +111,14 @@ async function main () {
   } catch (e) {
     logger.error('!error', e)
   }
+}
+
+function loadConfig () {
+  ServerConfig.port = config?.port
+  ServerConfig.proxyUrl = config?.proxyUrl
+  ServerConfig.mailConfig = config?.mailConfig
+  ServerConfig.serverRsaKey = config?.serverRsaKey
+  ServerConfig.serverAddress = config?.serverAddress
+  ServerConfig.accessTokenExpireInS = config?.accessTokenExpireInS
+  ServerConfig.idTokenExpireInS = config?.idTokenExpireInS
 }
