@@ -7,9 +7,9 @@
     Do you approve?<br>
     <div>
         scope<br>
-        <%= (data.scope.includes('r') && 'read') %><br>
-        <%= (data.scope.includes('w') && 'write') %><br>
-        <%= (data.scope.includes('openid') && 'openid') %><br>
+        <%if (data.scope.includes('r')) {%>read<br><%}%>
+        <%if (data.scope.includes('w')) {%>write<br><%}%>
+        <%if (data.scope.includes('openid')) {%>openid<%}%>
     </div>
     <form action="/approve" method="post">
         <button name="approve" type="submit" value="yes">Approve</button>
