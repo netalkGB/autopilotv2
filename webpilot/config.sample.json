@@ -14,5 +14,16 @@
         },
         "fromAddr": "????@????.???",
         "fromName": "?????"
-    }
+    },
+    "serverRsaKey": {
+        "alg": "???",
+        "d": "???",
+        "e": "????",
+        "n": "???",
+        "kty": "???",
+        "kid": "???"
+    },
+    "serverAddress": "http://localhost:3000/",
+    "accessTokenExpireInS": 60,
+    "idTokenExpireInS": 60
 }
