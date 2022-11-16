@@ -14,6 +14,7 @@ import { otpCheckPostController } from './controller/OtpCheckPostController'
 import { loginReleaseGetController } from './controller/LoginReleaseGetController'
 import { authorizePageGetController } from './controller/AuthorizePageGetController'
 import { approvePagePostController } from './controller/ApprovePagePostController'
+import { tokenPostController } from './controller/TokenPostController'
 
 export const appRoutes = [
   {
@@ -55,6 +56,11 @@ export const appRoutes = [
     path: '/approve',
     method: 'post',
     controller: approvePagePostController
+  },
+  {
+    path: '/token',
+    method: 'post',
+    controller: tokenPostController
   },
   {
     path: '/schedule',
