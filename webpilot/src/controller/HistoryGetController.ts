@@ -8,6 +8,13 @@ const logger = log4js.getLogger('app')
 
 export const historyGetController = async (request: Request, response: Response) => {
   logger.info('start historyGetController')
+
+  if (!request.token.scope.includes('r')) {
+    logger.info('access blocked')
+    response.status(404).send()
+    return
+  }
+
   const scheduleService = new ScheduleServiceImpl(AppDataSource)
   try {
     const histories = await scheduleService.getHistory()

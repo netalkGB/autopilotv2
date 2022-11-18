@@ -11,6 +11,13 @@ const DISCORD_CONFIG_KEY = 'discordWebHookUrl'
 
 export const discordConfigPutController = async (request: Request, response: Response) => {
   logger.info('start discordConfigPutController')
+
+  if (!request.token.scope.includes('w')) {
+    logger.info('access blocked')
+    response.status(404).send()
+    return
+  }
+
   try {
     const configService = new ConfigServiceImpl(AppDataSource)
     const notificationService = new NotificationServiceImpl(configService)

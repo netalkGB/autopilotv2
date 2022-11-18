@@ -7,6 +7,13 @@ const logger = log4js.getLogger('app')
 
 export const scheduleDeleteController = async (request: Request, response: Response) => {
   logger.info('start scheduleDeleteController')
+
+  if (!request.token.scope.includes('w')) {
+    logger.info('access blocked')
+    response.status(404).send()
+    return
+  }
+
   try {
     const scheduleService = new ScheduleServiceImpl(AppDataSource)
     const id = request.query.id as string

@@ -9,6 +9,13 @@ const logger = log4js.getLogger('app')
 
 export const schedulePutController = async (request: Request, response: Response) => {
   logger.info('start schedulePutController')
+
+  if (!request.token.scope.includes('w')) {
+    logger.info('access blocked')
+    response.status(404).send()
+    return
+  }
+
   try {
     const scheduleValidator = new ScheduleValidator()
     const scheduleService = new ScheduleServiceImpl(AppDataSource)
