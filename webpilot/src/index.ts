@@ -70,12 +70,23 @@ async function main () {
     app.engine('ejs', ejs.__express) // webpack使わず動かすなら見直す
     app.use(express.urlencoded({ extended: true }))
     appRoutes.forEach(route => {
+      const path = route.path
       // @ts-ignore
-      app[route.method](route.path, (request: Request, response: Response, next: Function) => {
+      const preProcess = route.preProcess
+      const handler = (request: Request, response: Response, next: Function) => {
         route.controller(request, response)
           .then(() => next)
           .catch((err: any) => next(err))
-      })
+      }
+      let args = [path]
+      if (preProcess) {
+        // @ts-ignore
+        args = [...args, route.preProcess]
+      }
+      // @ts-ignore
+      args = [...args, handler]
+      // @ts-ignore
+      app[route.method](...args)
     })
 
     const autopilotService =
