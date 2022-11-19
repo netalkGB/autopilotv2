@@ -1,6 +1,7 @@
 import { TmpRefreshToken } from '../../entity/auth/TmpRefreshToken'
 import { DataSource, EntityManager, Repository } from 'typeorm'
 import { RefreshTokenService } from './RefreshTokenService'
+import { TmpAccessToken } from '../../entity/auth/TmpAccessToken'
 
 export class RefreshTokenServiceImpl implements RefreshTokenService {
   private refreshTokenRepository: Repository<TmpRefreshToken>
@@ -27,5 +28,15 @@ export class RefreshTokenServiceImpl implements RefreshTokenService {
 
   public async deleteRefreshToken (refreshToken: string): Promise<void> {
     await this.entityManager.createQueryBuilder().delete().from(TmpRefreshToken).where('refresh_token = :refreshToken', { refreshToken }).execute()
+  }
+
+  public async deleteRefreshTokenByAccessToken (accessToken: string): Promise<void> {
+    await this.entityManager.transaction(async entityManager => {
+      const tmpAccessToken = await entityManager.getRepository(TmpAccessToken).createQueryBuilder().select().where('access_token = :accessToken', { accessToken }).getOne()
+      console.log('tmpAccessToken', JSON.stringify(tmpAccessToken))
+      if (tmpAccessToken) {
+        await entityManager.createQueryBuilder().delete().from(TmpRefreshToken).where('refresh_token = :refreshToken', { refreshToken: tmpAccessToken.refreshToken }).execute()
+      }
+    })
   }
 }
