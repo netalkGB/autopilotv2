@@ -34,7 +34,6 @@ export async function oAuth2Protection (request: Request, response: Response, ne
     return
   }
 
-  // TODO: req.userInfo = await fetchUserInfo(token.userId)があってもいいかも
   request.token = {
     accessToken: dbToken.accessToken,
     userId: dbToken.userId,
