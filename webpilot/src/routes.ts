@@ -16,6 +16,7 @@ import { authorizePageGetController } from './controller/AuthorizePageGetControl
 import { approvePagePostController } from './controller/ApprovePagePostController'
 import { tokenPostController } from './controller/TokenPostController'
 import { oAuth2Protection } from './controller/OAuth2Protection'
+import { revokePostController } from './controller/RevokePostController'
 
 export const appRoutes = [
   {
@@ -62,6 +63,11 @@ export const appRoutes = [
     path: '/token',
     method: 'post',
     controller: tokenPostController
+  },
+  {
+    path: '/revoke',
+    method: 'post',
+    controller: revokePostController
   },
   {
     path: '/schedule',
