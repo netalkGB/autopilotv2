@@ -18,7 +18,7 @@ export class UserInfo {
   email: string
 
   @Column({ name: 'email_verified' })
-  emailVerified: string
+  emailVerified: boolean
 
   @Column({ name: 'created' })
   created: Date
