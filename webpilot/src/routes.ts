@@ -17,6 +17,7 @@ import { approvePagePostController } from './controller/ApprovePagePostControlle
 import { tokenPostController } from './controller/TokenPostController'
 import { oAuth2Protection } from './controller/OAuth2Protection'
 import { revokePostController } from './controller/RevokePostController'
+import { userInfoController } from './controller/UserInfoController'
 
 export const appRoutes = [
   {
@@ -68,6 +69,18 @@ export const appRoutes = [
     path: '/revoke',
     method: 'post',
     controller: revokePostController
+  },
+  {
+    path: '/userInfo',
+    method: 'get',
+    preProcess: oAuth2Protection,
+    controller: userInfoController
+  },
+  {
+    path: '/userInfo',
+    method: 'post',
+    preProcess: oAuth2Protection,
+    controller: userInfoController
   },
   {
     path: '/schedule',
