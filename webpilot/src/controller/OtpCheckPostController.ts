@@ -55,9 +55,9 @@ export const otpCheckPostController = async (request: Request, response: Respons
       logger.info('retry pre-login')
       await authService.preLogin(user)
       if (request.body.to) {
-        response.render('otpcheck', { data: { error: true, message: 'otp is incorrect.', csrfToken, to: request.body.to } })
+        response.render('otpcheck', { data: { error: true, message: 'incorrect otp.', csrfToken, to: request.body.to } })
       } else {
-        response.render('otpcheck', { data: { error: true, message: 'otp is incorrect.', csrfToken } })
+        response.render('otpcheck', { data: { error: true, message: 'incorrect otp.', csrfToken } })
       }
     } else {
       logger.warn('retry pre-login: user not found')
