@@ -33,7 +33,6 @@ export class RefreshTokenServiceImpl implements RefreshTokenService {
   public async deleteRefreshTokenByAccessToken (accessToken: string): Promise<void> {
     await this.entityManager.transaction(async entityManager => {
       const tmpAccessToken = await entityManager.getRepository(TmpAccessToken).createQueryBuilder().select().where('access_token = :accessToken', { accessToken }).getOne()
-      console.log('tmpAccessToken', JSON.stringify(tmpAccessToken))
       if (tmpAccessToken) {
         await entityManager.createQueryBuilder().delete().from(TmpRefreshToken).where('refresh_token = :refreshToken', { refreshToken: tmpAccessToken.refreshToken }).execute()
       }
