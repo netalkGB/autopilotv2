@@ -26,4 +26,8 @@ export class AccessTokenServiceImpl implements AccessTokenService {
 
     await this.entityManager.save(tmpAccessToken)
   }
+
+  public async deleteAccessToken (accessToken: string): Promise<void> {
+    await this.tmpAccessTokenRepository.createQueryBuilder().delete().where('access_token = :accessToken', { accessToken }).execute()
+  }
 }
