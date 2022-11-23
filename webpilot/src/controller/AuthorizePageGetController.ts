@@ -42,24 +42,8 @@ export const authorizePageGetController = async (request: Request, response: Res
   logger.info('request.session?.userId:' + request.session?.userId)
 
   if (!request.session?.userId) {
-    let authorizeParams: AuthorizeParams = {
-      response_type: responseType,
-      scope: scope,
-      client_id: clientId,
-      redirect_uri: redirectUri,
-      state: state,
-      code_challenge_method: codeChallengeMethod,
-      code_challenge: codeChallenge
-    }
-    if (nonce) {
-      authorizeParams = {
-        ...authorizeParams,
-        nonce
-      }
-    }
-    response.redirect('/login?' + new URLSearchParams({
-      to: '/authorize?' + new URLSearchParams(authorizeParams).toString()
-    }).toString())
+    const to = createAuthorizeUrl(responseType, scope, clientId, redirectUri, state, codeChallengeMethod, codeChallenge, nonce)
+    response.redirect('/login?' + new URLSearchParams({ to }).toString())
     return
   }
 
@@ -103,6 +87,28 @@ export const authorizePageGetController = async (request: Request, response: Res
   const csrfToken = AppUtils.generateUUID()
   request.session.csrfToken = csrfToken
 
-  response.render('authorize', { data: { csrfToken, scope } })
+  const authorizeUrl = createAuthorizeUrl(responseType, scope, clientId, redirectUri, state, codeChallengeMethod, codeChallenge, nonce)
+  const logoutUrl = '/logout?' + new URLSearchParams({ to: authorizeUrl }).toString()
+
+  response.render('authorize', { data: { csrfToken, scope, logoutUrl, username: request.session.userId } })
   logger.info('end authorizePageGetController')
+}
+
+function createAuthorizeUrl (responseType: string, scope: string, clientId: string, redirectUri: string, state: string, codeChallengeMethod: string, codeChallenge: string, nonce: string) {
+  let authorizeParams: AuthorizeParams = {
+    response_type: responseType,
+    scope: scope,
+    client_id: clientId,
+    redirect_uri: redirectUri,
+    state: state,
+    code_challenge_method: codeChallengeMethod,
+    code_challenge: codeChallenge
+  }
+  if (nonce) {
+    authorizeParams = {
+      ...authorizeParams,
+      nonce
+    }
+  }
+  return '/authorize?' + new URLSearchParams(authorizeParams).toString()
 }
