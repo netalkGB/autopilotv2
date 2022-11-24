@@ -23,6 +23,7 @@
       "node_modules",
       "out",
       "webpack.config.js",
-      "script"
+      "script",
+      "**/public/static/*.js"
     ]
 }

@@ -17,7 +17,7 @@ module.exports = (_, argv) => {
           rules: [
             {
               test: /(\.js$|\.ts$)/,
-              exclude: /(node_modules|out)/,
+              exclude: /(node_modules|out|static)/,
               loader: "ts-loader",
             },
             {
@@ -63,7 +63,8 @@ module.exports = (_, argv) => {
           }),
           new CopyWebpackPlugin({
             patterns: [
-              { from: 'src/views', to: 'views' }
+              { from: 'src/views', to: 'views' },
+              { from: 'src/public', to: 'public' }
             ]
           })
         ],
