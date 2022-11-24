@@ -1,0 +1,181 @@
+html {
+    font-family: '游ゴシック Medium', 'Yu Gothic Medium', '游ゴシック体', YuGothic,
+    メイリオ, 'Noto Sans CJK JP', 'TakaoEXゴシック', 'TakaoExGothic', sans-serif;
+}
+html, body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+h1,h2,h3,h4,h5 {
+    padding: 0;
+    margin: 0;
+    font-weight: normal;
+}
+
+p {
+    font-size: 15px;
+}
+
+ul, li {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+#container {
+    background-color: #fafafc;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#main {
+    width: 300px;
+    padding: 24px 32px;
+    background-color: #ffffff;
+}
+
+#main form > input {
+    margin-bottom: 8px;
+    margin-top: 6px;
+}
+
+#main form {
+    display:flex;
+    flex-flow: column;
+}
+
+.login input[type="submit"] {
+    border: none;
+    color: #eeeeee;
+    background: #3087da;
+}
+
+.login input[type="submit"]:hover {
+    background: #215e97;
+}
+.login input[type="submit"]:disabled {
+    background: #879eb4;
+}
+
+.login input[type="text"] {
+    border: solid 1px #aaaaaa;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.login input[type="text"]:hover , .login input[type="text"]:focus  {
+    border: solid 1px #5588d8;
+}
+
+.login input[type="text"]:focus {
+    outline: none;
+}
+
+.login input[type="text"]:disabled {
+    border: solid 1px #777777;
+}
+
+.login input[type="text"].error {
+    border: solid 1px #ee0000;
+}
+
+.login div.error {
+    color: #ee0000;
+    font-size: 15px;
+}
+
+
+#main form > button {
+    margin-bottom: 8px;
+    margin-top: 6px;
+}
+.login button[type="submit"] {
+    border: none;
+    color: #eeeeee;
+    background: #3087da;
+}
+
+.login button[type="submit"]:hover {
+    background: #215e97;
+}
+
+.login button[type="submit"]:disabled {
+    background: #879eb4;
+}
+
+.login button[type="submit"][value="no"] {
+    border: none;
+    color: #eeeeee;
+    background: #da3038;
+}
+
+.login button[type="submit"][value="no"]:hover {
+    background: #8d1f24;
+}
+
+.login button[type="submit"][value="no"]:disabled {
+    background: #865659;
+}
+
+.scope_area {
+    margin-bottom: 4px;
+}
+
+
+.login button {
+    height: 36px;
+    font-size: 16px;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.login input {
+    height: 36px;
+    font-size: 16px;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.login .hide {
+    display: none;
+}
+
+#main h1 {
+    margin-bottom: 12px;
+    font-size: 28px;
+}
+#main h2, h3 {
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+
+#main li, ul {
+    font-size: 15px;
+}
+
+a, a:hover {
+    color: #43434d;
+    text-decoration: none;
+}
+
+@media screen and (max-width: 768px) {
+    html, body {
+        width: initial;
+        height: initial;
+        padding: initial;
+        margin: initial;
+    }
+    #container {
+        background-color: initial;
+        width: initial;
+        height: initial;
+        display: flex;
+    }
+    #main {
+        width: 80%;
+    }
+}

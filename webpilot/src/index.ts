@@ -1,6 +1,7 @@
 import { AppDataSource } from './AppDataSource'
 import { appRoutes } from './routes'
 import express, { NextFunction, Request, Response } from 'express'
+import path from 'path'
 import session from 'express-session'
 import ejs from 'ejs'
 import schedule from 'node-schedule'
@@ -68,6 +69,7 @@ async function main () {
     app.set('views', './out/views') // webpack使わず動かすなら見直す
     // @ts-ignore
     app.engine('ejs', ejs.__express) // webpack使わず動かすなら見直す
+    app.use(express.static(path.join(__dirname, 'public')))
     app.use(express.urlencoded({ extended: true }))
     appRoutes.forEach(route => {
       const path = route.path

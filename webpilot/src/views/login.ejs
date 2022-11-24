@@ -1,34 +1,29 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Autopilot</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Autopilot authentication</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <% if (data.error) { %>
-        <%= data.message %>
-    <% } %>
-    <form method="POST" action="./login">
-        <div>
-            <span>ID:</span>
-            <label>
-                <input type="text" name="id">
-            </label>
+    <div id="container">
+        <div id="main" class="login">
+            <h1>Login</h1>
+            <form method="POST" action="./login">
+                <% if (data.error) { %>
+                    <div class="error"><%= data.message %></div>
+                <% } %>
+                <input type="text" name="id" class="<% if (data.error) { %>error<% } %>" placeholder="ID">
+                <input type="hidden" name="csrfToken" value="<%= data.csrfToken %>">
+                <% if (data.to) { %>
+                    <input type="hidden" name="to" value="<%= data.to %>">
+                <% } %>
+                <input type="submit" value="NEXT">
+            </form>
         </div>
-        <input type="hidden" name="csrfToken" value="<%= data.csrfToken %>">
-        <% if (data.to) { %>
-            <input type="hidden" name="to" value="<%= data.to %>">
-        <% } %>
-        <div>
-            <input type="submit" value="LOGIN">
-        </div>
-    </form>
+    </div>
 </body>
-<script>
-  ((document) => {
-    const forms = document.querySelectorAll('form')
-    const buttons = document.querySelectorAll('input[type=\'submit\']')
-    forms.forEach(form => form.addEventListener('submit', () => buttons.forEach(v => v.disabled = true)))
-  })(document)
-</script>
+<script src="/static/script.js"></script>
 </html>

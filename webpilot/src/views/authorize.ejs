@@ -1,28 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Autopilot</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Approve - Autopilot authentication</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-<section>login as <%= data.username %><br><a href="<%=data.logoutUrl%>">Login as another user?</a></section>
-    Do you approve?<br>
-    <div>
-        scope<br>
-        <%if (data.scope.includes('r')) {%>read<br><%}%>
-        <%if (data.scope.includes('w')) {%>write<br><%}%>
-        <%if (data.scope.includes('openid')) {%>openid<%}%>
+<div id="container">
+    <div id="main" class="login">
+        <h1>Do you approve?</h1>
+        <p>login as <%= data.username %><br><a href="<%=data.logoutUrl%>">Login as another user?</a></p>
+        <div class="scope_area">
+            <h2>scope:</h2>
+            <ul>
+                <%if (data.scope.includes('r')) {%><li>read</li><%}%>
+                <%if (data.scope.includes('w')) {%><li>write</li><%}%>
+                <%if (data.scope.includes('openid')) {%><li>openid</li><%}%>
+            </ul>
+        </div>
+        <form action="/approve" method="post">
+            <button name="approve" type="submit" value="yes">Approve</button>
+            <button name="approve" type="submit" value="no">Reject</button>
+            <input type="hidden" name="csrfToken" value="<%= data.csrfToken %>">
+        </form>
     </div>
-    <form action="/approve" method="post">
-        <button name="approve" type="submit" value="yes">Approve</button>
-        <button name="approve" type="submit" value="no">Reject</button>
-        <input type="hidden" name="csrfToken" value="<%= data.csrfToken %>">
-    </form>
+</div>
 </body>
-<script>
-  ((document) => {
-    const forms = document.querySelectorAll('form')
-    const buttons = document.querySelectorAll('input[type=\'submit\']')
-    forms.forEach(form => form.addEventListener('submit', () => buttons.forEach(v => v.disabled = true)))
-  })(document)
-</script>
+<script src="/static/script.js"></script>
 </html>
