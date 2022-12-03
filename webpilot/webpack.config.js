@@ -49,7 +49,7 @@ module.exports = (_, argv) => {
             /^pg-native$/,
             /^pg-query-stream$/,
             /^react-native-sqlite-storage$/,
-            /^redis$/,
+            // /^redis$/,
             /^sqlite3$/,
             /^sql.js$/,
             /^typeorm-aurora-data-api-driver$/,
