@@ -20,15 +20,8 @@ export async function oAuth2Protection (request: Request, response: Response, ne
 
   const accessTokenService = new AccessTokenServiceImpl()
   const dbToken = await accessTokenService.fetchAccessTokenByToken(bearerToken)
+  // ないまたはexpireすぎてるならエラーにする
   if (!dbToken) {
-    response.send({ error: 'invalid_request' }).status(400)
-    return
-  }
-
-  // expireみてすぎてたらエラーにする
-  const tokenCreated = new Date(dbToken.created)
-  const tokenDeadline = tokenCreated.setSeconds(tokenCreated.getSeconds() + dbToken.expireInS)
-  if ((tokenDeadline - Date.now()) <= 0) {
     response.send({ error: 'invalid_request' }).status(400)
     return
   }
