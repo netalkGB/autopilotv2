@@ -47,7 +47,10 @@ export class AuthTokenServiceImpl implements AuthTokenService {
     const client = RedisClient.create()
     try {
       await client.connect()
-      await client.setEx(this.generateAuthTokenRedisKey(authToken.userId), authToken.expireInS, JSON.stringify(authToken))
+      // authTokenのexpireはみない きれてることを知らせたいので消したらまずい
+      const expire = 60 * 30 // sessionが切れる時間とそろえた
+      // TODO: expireの時間はセッションとそろえるからセッションのmax時間を設定ファイル化と共通化する
+      await client.setEx(this.generateAuthTokenRedisKey(authToken.userId), expire, JSON.stringify(authToken))
 
       const count = await client.get(this.generateAuthTokenCountRedisKey(authToken.userId))
       if (!count) {
