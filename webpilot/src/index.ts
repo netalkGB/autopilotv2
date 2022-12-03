@@ -61,7 +61,7 @@ async function main () {
       saveUninitialized: false,
       cookie: {
         httpOnly: true,
-        secure: false,
+        secure: false, // リバースプロキシでtrueにするつもり
         maxAge: 1000 * 60 * 30
       }
     }))
