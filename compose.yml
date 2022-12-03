@@ -3,7 +3,7 @@ services:
     container_name: ap_proxy
     build: ./proxy
     tty: true
-    restart: on-failure:5
+    restart: always
   ap_webpilot:
     container_name: ap_webpilot
     depends_on:
@@ -13,7 +13,7 @@ services:
     tty: true
     ports:
       - "58000:58000/tcp"
-    restart: on-failure:5
+    restart: always
   ap_postgres:
     container_name: ap_postgres
     image: postgres:14
@@ -25,6 +25,6 @@ services:
       - db_data:/var/lib/posrgresql/data
     ports:
       - "5432:5432/tcp"
-    restart: on-failure:5
+    restart: always
 volumes:
   db_data: {}
