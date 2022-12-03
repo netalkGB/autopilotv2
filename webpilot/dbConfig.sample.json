@@ -1,7 +1,15 @@
 {
-    "host": "????",
-    "port": 5432,
-    "username": "???",
-    "password": "???",
-    "database": "???"
+    "rdb": {
+        "host": "????",
+        "port": 5432,
+        "username": "???",
+        "password": "???",
+        "database": "???"
+    },
+    "redis": {
+        "host": "???",
+        "port": 6379,
+        "username": "???",
+        "password": "???"
+    }
 }

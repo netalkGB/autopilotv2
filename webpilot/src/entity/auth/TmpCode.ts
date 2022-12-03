@@ -1,28 +1,94 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm'
-
-@Entity({ name: 'tmp_code' })
 export class TmpCode {
-  @PrimaryColumn({ name: 'code', unique: true })
-  code: string
+  private _code: string
 
-  @Column({ name: 'client_id' })
-  clientId: string
+  private _clientId: string
 
-  @Column({ name: 'user_id' })
-  userId: string
+  private _userId: string
 
-  @Column({ name: 'scope' })
-  scope: string
+  private _scope: string
 
-  @Column({ name: 'code_challenge_method' })
-  codeChallengeMethod: string
+  private _codeChallengeMethod: string
 
-  @Column({ name: 'code_challenge' })
-  codeChallenge: string
+  private _codeChallenge: string
 
-  @Column({ name: 'nonce', nullable: true })
-  nonce: string
+  private _nonce: string
 
-  @Column({ name: 'created' })
-  created: Date
+  private _created: Date
+
+  get code (): string {
+    return this._code
+  }
+
+  set code (value: string) {
+    this._code = value
+  }
+
+  get clientId (): string {
+    return this._clientId
+  }
+
+  set clientId (value: string) {
+    this._clientId = value
+  }
+
+  get userId (): string {
+    return this._userId
+  }
+
+  set userId (value: string) {
+    this._userId = value
+  }
+
+  get scope (): string {
+    return this._scope
+  }
+
+  set scope (value: string) {
+    this._scope = value
+  }
+
+  get codeChallengeMethod (): string {
+    return this._codeChallengeMethod
+  }
+
+  set codeChallengeMethod (value: string) {
+    this._codeChallengeMethod = value
+  }
+
+  get codeChallenge (): string {
+    return this._codeChallenge
+  }
+
+  set codeChallenge (value: string) {
+    this._codeChallenge = value
+  }
+
+  get nonce (): string {
+    return this._nonce
+  }
+
+  set nonce (value: string) {
+    this._nonce = value
+  }
+
+  get created (): Date {
+    return this._created
+  }
+
+  set created (value: Date) {
+    this._created = value
+  }
+
+  public toJSON (): object {
+    return {
+      code: this._code,
+      clientId: this._clientId,
+      userId: this._userId,
+      scope: this._scope,
+      codeChallengeMethod: this._codeChallengeMethod,
+      codeChallenge: this._codeChallenge,
+      nonce: this._nonce,
+      created: this._created.getTime()
+    }
+  }
 }

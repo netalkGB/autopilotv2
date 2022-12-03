@@ -1,37 +1,70 @@
 import { AuthTokenService } from './AuthTokenService'
 import { TmpAuthToken } from '../../entity/auth/TmpAuthToken'
-import { DataSource, EntityManager, Repository } from 'typeorm'
-import { TmpAuthTokenHistory } from '../../entity/auth/TmpAuthTokenHistory'
+import { RedisClient } from '../../utils/RedisClient'
 
+const REDIS_AUTH_TOKEN_BASE_KEY = 'tmpAuthToken'
+const REDIS_AUTH_TOKEN_COUNT_BASE_KEY = 'tmpAuthTokenCount'
+
+const EMAIL_SEND_COUNT_LIMIT_DENOMINATOR_HOUR = 24
 export class AuthTokenServiceImpl implements AuthTokenService {
-  private tmpAuthTokenRepository: Repository<TmpAuthToken>
-  private tmpAuthTokenHistoryRepository: Repository<TmpAuthTokenHistory>
-  private entityManager: EntityManager
-  constructor (appDataSource: DataSource) {
-    this.tmpAuthTokenRepository = appDataSource.getRepository(TmpAuthToken)
-    this.tmpAuthTokenHistoryRepository = appDataSource.getRepository(TmpAuthTokenHistory)
-    this.entityManager = appDataSource.manager
-  }
-
   public async getAuthTokenByUserId (userId: string): Promise<TmpAuthToken | null> {
-    return await this.tmpAuthTokenRepository.createQueryBuilder().select().where('user_id = :id', { id: userId }).getOne()
+    const client = RedisClient.create()
+    await client.connect()
+
+    try {
+      let tmpAuthToken = null
+      const data = await client.get(this.generateAuthTokenRedisKey(userId))
+      if (data) {
+        const at = JSON.parse(data)
+        tmpAuthToken = new TmpAuthToken()
+        tmpAuthToken.email = at.email
+        tmpAuthToken.userId = at.userId
+        tmpAuthToken.token = at.token
+        tmpAuthToken.expireInS = at.expireInS
+        tmpAuthToken.created = new Date(at.created * 1000)
+      }
+      return tmpAuthToken
+    } finally {
+      await client.disconnect()
+    }
   }
 
-  public async getAuthTokenCountByUserIdDateRange (userId: string, startDate: Date, endDate: Date): Promise<number> {
-    return await this.tmpAuthTokenHistoryRepository.createQueryBuilder().select()
-      .where('user_id = :id', { id: userId })
-      .andWhere('created between :start and :end', { start: startDate, end: endDate })
-      .getCount()
+  public async getAuthTokenCount (userId: string): Promise<number> {
+    const client = RedisClient.create()
+    await client.connect()
+    try {
+      const result = await client.get(this.generateAuthTokenCountRedisKey(userId))
+      if (!result) {
+        return 0
+      }
+      return parseInt(result, 10)
+    } finally {
+      await client.disconnect()
+    }
   }
 
   public async saveAuthToken (authToken: TmpAuthToken): Promise<void> {
-    await this.entityManager.save(authToken)
-    const history = new TmpAuthTokenHistory()
-    history.email = authToken.email
-    history.userId = authToken.userId
-    history.token = authToken.token
-    history.expireInS = authToken.expireInS
-    history.created = authToken.created
-    await this.entityManager.save(history)
+    const client = RedisClient.create()
+    try {
+      await client.connect()
+      await client.setEx(this.generateAuthTokenRedisKey(authToken.userId), authToken.expireInS, JSON.stringify(authToken))
+
+      const count = await client.get(this.generateAuthTokenCountRedisKey(authToken.userId))
+      if (!count) {
+        await client.setEx(this.generateAuthTokenCountRedisKey(authToken.userId), EMAIL_SEND_COUNT_LIMIT_DENOMINATOR_HOUR * 60 * 60, '1')
+      } else {
+        await client.set(this.generateAuthTokenCountRedisKey(authToken.userId), parseInt(count, 10))
+      }
+    } finally {
+      await client.disconnect()
+    }
+  }
+
+  private generateAuthTokenRedisKey (userId: string): string {
+    return `${REDIS_AUTH_TOKEN_BASE_KEY}/${userId}`
+  }
+
+  private generateAuthTokenCountRedisKey (userId: string): string {
+    return `${REDIS_AUTH_TOKEN_COUNT_BASE_KEY}/${userId}`
   }
 }

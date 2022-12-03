@@ -58,7 +58,7 @@ export const approvePagePostController = async (request: Request, response: Resp
   // リダイレクトする
   const code = AppUtils.generateApproveCode()
 
-  const codeService = new CodeServiceImpl(AppDataSource)
+  const codeService = new CodeServiceImpl()
 
   // TMP_CODEにCODEとCLIENT_ID,username,scope,codeChallengeMethod, codeChallengeを保存する
   await codeService.insertCode(code, authorizeInfo.clientId, request.session.userId, authorizeInfo.scope, authorizeInfo.codeChallengeMethod, authorizeInfo.codeChallenge, authorizeInfo.nonce, new Date())

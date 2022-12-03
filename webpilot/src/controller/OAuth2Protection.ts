@@ -1,5 +1,4 @@
 import { AccessTokenServiceImpl } from '../service/auth/AccessTokenServiceImpl'
-import { AppDataSource } from '../AppDataSource'
 import { Request, Response } from 'express'
 
 export async function oAuth2Protection (request: Request, response: Response, next: Function) {
@@ -19,7 +18,7 @@ export async function oAuth2Protection (request: Request, response: Response, ne
     return
   }
 
-  const accessTokenService = new AccessTokenServiceImpl(AppDataSource)
+  const accessTokenService = new AccessTokenServiceImpl()
   const dbToken = await accessTokenService.fetchAccessTokenByToken(bearerToken)
   if (!dbToken) {
     response.send({ error: 'invalid_request' }).status(400)

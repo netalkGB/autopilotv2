@@ -15,9 +15,9 @@ const logger = log4js.getLogger('app')
 export const tokenPostController = async (request: Request, response: Response) => {
   logger.info('start tokenPostController')
   const clientService = new ClientServiceImpl(AppDataSource)
-  const codeService = new CodeServiceImpl(AppDataSource)
-  const accessTokenService = new AccessTokenServiceImpl(AppDataSource)
-  const refreshTokenService = new RefreshTokenServiceImpl(AppDataSource)
+  const codeService = new CodeServiceImpl()
+  const accessTokenService = new AccessTokenServiceImpl()
+  const refreshTokenService = new RefreshTokenServiceImpl(AppDataSource, accessTokenService)
   const userInfoService = new UserInfoServiceImpl(AppDataSource)
 
   // AuthorizationヘッダーからBASE64エンコードされたクライアントIDとクライアントシークレットを取得する
@@ -65,7 +65,7 @@ export const tokenPostController = async (request: Request, response: Response) 
     // TMP_CODEから取得したcodeで削除
     await codeService.deleteCode(request.body.code)
 
-    // codeが取得できないならエラー
+    // codeが取得できない(expire来てる場合も含む)ならエラー
     if (!code) {
       logger.info('Invalid code.')
       response.status(400).send({ error: 'invalid_grant' })

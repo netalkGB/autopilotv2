@@ -1,19 +1,61 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm'
-
-@Entity({ name: 'tmp_auth_token' })
 export class TmpAuthToken {
-  @PrimaryColumn({ name: 'email' })
-  email: string
+  private _email: string
 
-  @Column({ name: 'user_id' })
-  userId: string
+  private _userId: string
 
-  @Column({ name: 'token' })
-  token: string
+  private _token: string
 
-  @Column({ name: 'expire_in_s' })
-  expireInS: number
+  private _expireInS: number
 
-  @Column({ name: 'created' })
-  created: Date
+  private _created: Date
+
+  get email (): string {
+    return this._email
+  }
+
+  set email (value: string) {
+    this._email = value
+  }
+
+  get userId (): string {
+    return this._userId
+  }
+
+  set userId (value: string) {
+    this._userId = value
+  }
+
+  get token (): string {
+    return this._token
+  }
+
+  set token (value: string) {
+    this._token = value
+  }
+
+  get expireInS (): number {
+    return this._expireInS
+  }
+
+  set expireInS (value: number) {
+    this._expireInS = value
+  }
+
+  get created (): Date {
+    return this._created
+  }
+
+  set created (value: Date) {
+    this._created = value
+  }
+
+  public toJSON (): object {
+    return {
+      email: this._email,
+      userId: this._userId,
+      token: this._token,
+      expireInS: this._expireInS,
+      created: this._created.getTime()
+    }
+  }
 }

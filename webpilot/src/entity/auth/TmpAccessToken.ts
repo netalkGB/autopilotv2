@@ -1,25 +1,82 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm'
-
-@Entity({ name: 'tmp_access_token' })
 export class TmpAccessToken {
-  @PrimaryColumn({ name: 'access_token', unique: true })
-  accessToken: string
+  private _accessToken: string
 
-  @Column({ name: 'user_id' })
-  userId: string
+  private _userId: string
 
-  @Column({ name: 'client_id' })
-  clientId: string
+  private _clientId: string
 
-  @Column({ name: 'scope' })
-  scope: string
+  private _scope: string
 
-  @Column({ name: 'refresh_token' })
-  refreshToken: string
+  private _refreshToken: string
 
-  @Column({ name: 'expire_in_s' })
-  expireInS: number
+  private _expireInS: number
 
-  @Column({ name: 'created' })
-  created: Date
+  private _created: Date
+  get accessToken (): string {
+    return this._accessToken
+  }
+
+  set accessToken (value: string) {
+    this._accessToken = value
+  }
+
+  get userId (): string {
+    return this._userId
+  }
+
+  set userId (value: string) {
+    this._userId = value
+  }
+
+  get clientId (): string {
+    return this._clientId
+  }
+
+  set clientId (value: string) {
+    this._clientId = value
+  }
+
+  get scope (): string {
+    return this._scope
+  }
+
+  set scope (value: string) {
+    this._scope = value
+  }
+
+  get refreshToken (): string {
+    return this._refreshToken
+  }
+
+  set refreshToken (value: string) {
+    this._refreshToken = value
+  }
+
+  get expireInS (): number {
+    return this._expireInS
+  }
+
+  set expireInS (value: number) {
+    this._expireInS = value
+  }
+
+  get created (): Date {
+    return this._created
+  }
+
+  set created (value: Date) {
+    this._created = value
+  }
+
+  public toJSON (): object {
+    return {
+      accessToken: this._accessToken,
+      userId: this._userId,
+      clientId: this._clientId,
+      scope: this._scope,
+      refreshToken: this._refreshToken,
+      expireInS: this._expireInS,
+      created: this._created.getTime()
+    }
+  }
 }

@@ -36,7 +36,7 @@ export const loginPagePostController = async (request: Request, response: Respon
     return
   }
 
-  const authTokenService = new AuthTokenServiceImpl(AppDataSource)
+  const authTokenService = new AuthTokenServiceImpl()
   const mailService = new MailServiceImpl(logger)
 
   const authService = new AuthServiceImpl(logger, authTokenService, mailService)

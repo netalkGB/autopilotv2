@@ -1,14 +1,16 @@
 import { TmpRefreshToken } from '../../entity/auth/TmpRefreshToken'
 import { DataSource, EntityManager, Repository } from 'typeorm'
 import { RefreshTokenService } from './RefreshTokenService'
-import { TmpAccessToken } from '../../entity/auth/TmpAccessToken'
+import { AccessTokenService } from './AccessTokenService'
 
 export class RefreshTokenServiceImpl implements RefreshTokenService {
   private refreshTokenRepository: Repository<TmpRefreshToken>
   private entityManager: EntityManager
-  constructor (appDataSource: DataSource) {
+  private accessTokenService: AccessTokenService
+  constructor (appDataSource: DataSource, accessTokenService: AccessTokenService) {
     this.refreshTokenRepository = appDataSource.getRepository(TmpRefreshToken)
     this.entityManager = appDataSource.manager
+    this.accessTokenService = accessTokenService
   }
 
   public async fetchRefreshToken (refreshToken: string): Promise<TmpRefreshToken | null> {
@@ -31,11 +33,9 @@ export class RefreshTokenServiceImpl implements RefreshTokenService {
   }
 
   public async deleteRefreshTokenByAccessToken (accessToken: string): Promise<void> {
-    await this.entityManager.transaction(async entityManager => {
-      const tmpAccessToken = await entityManager.getRepository(TmpAccessToken).createQueryBuilder().select().where('access_token = :accessToken', { accessToken }).getOne()
-      if (tmpAccessToken) {
-        await entityManager.createQueryBuilder().delete().from(TmpRefreshToken).where('refresh_token = :refreshToken', { refreshToken: tmpAccessToken.refreshToken }).execute()
-      }
-    })
+    const tmpAccessToken = await this.accessTokenService.fetchAccessTokenByToken(accessToken)
+    if (tmpAccessToken) {
+      await this.entityManager.createQueryBuilder().delete().from(TmpRefreshToken).where('refresh_token = :refreshToken', { refreshToken: tmpAccessToken.refreshToken }).execute()
+    }
   }
 }

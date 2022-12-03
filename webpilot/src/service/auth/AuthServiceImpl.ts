@@ -7,7 +7,6 @@ import { AuthTokenService } from './AuthTokenService'
 import log4js from 'log4js'
 
 const EMAIL_SEND_COUNT_LIMIT = 50
-const EMAIL_SEND_COUNT_LIMIT_DENOMINATOR_HOUR = 24
 
 export class AuthServiceImpl implements AuthService {
   private mailService: MailService
@@ -21,11 +20,7 @@ export class AuthServiceImpl implements AuthService {
   }
 
   public async preLogin (user: User): Promise<void> {
-    const end = new Date()
-    const start = new Date(end.getTime())
-    start.setHours(end.getHours() - EMAIL_SEND_COUNT_LIMIT_DENOMINATOR_HOUR)
-
-    const count = await this.authTokenService.getAuthTokenCountByUserIdDateRange(user.id, start, end)
+    const count = await this.authTokenService.getAuthTokenCount(user.id)
     this.logger.info(`email send count: ${count}`)
     if (count > EMAIL_SEND_COUNT_LIMIT) {
       this.logger.info('email send rate limit')

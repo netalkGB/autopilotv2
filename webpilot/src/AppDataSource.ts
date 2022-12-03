@@ -6,14 +6,9 @@ import { Schedule } from './entity/autopilot/Schedule'
 import { Config } from './entity/autopilot/Config'
 import dbConfig from '../dbConfig.json'
 import { Client } from './entity/auth/Client'
-import { TmpAccessToken } from './entity/auth/TmpAccessToken'
-import { TmpAuthToken } from './entity/auth/TmpAuthToken'
-import { TmpCode } from './entity/auth/TmpCode'
-import { TmpLoginToken } from './entity/auth/TmpLoginToken'
 import { TmpRefreshToken } from './entity/auth/TmpRefreshToken'
 import { User } from './entity/auth/User'
 import { UserInfo } from './entity/auth/UserInfo'
-import { TmpAuthTokenHistory } from './entity/auth/TmpAuthTokenHistory'
 
 const {
   host,
@@ -21,7 +16,7 @@ const {
   username,
   password,
   database
-} = dbConfig
+} = dbConfig.rdb
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -38,11 +33,6 @@ export const AppDataSource = new DataSource({
     History,
     Config,
     Client,
-    TmpAccessToken,
-    TmpAuthToken,
-    TmpAuthTokenHistory,
-    TmpCode,
-    TmpLoginToken,
     TmpRefreshToken,
     User,
     UserInfo

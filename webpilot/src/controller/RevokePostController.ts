@@ -50,8 +50,8 @@ export const revokePostController = async (request: Request, response: Response)
 
   const token = request.body.token
   // ここでアクセストークンの削除を行う
-  const refreshTokenService = new RefreshTokenServiceImpl(AppDataSource)
-  const accessTokenService = new AccessTokenServiceImpl(AppDataSource)
+  const accessTokenService = new AccessTokenServiceImpl()
+  const refreshTokenService = new RefreshTokenServiceImpl(AppDataSource, accessTokenService)
 
   await refreshTokenService.deleteRefreshTokenByAccessToken(token)
   await accessTokenService.deleteAccessToken(token)
