@@ -20,7 +20,7 @@ export class CodeServiceImpl implements CodeService {
         retCodeObj.codeChallengeMethod = cd.codeChallengeMethod
         retCodeObj.codeChallenge = cd.codeChallenge
         retCodeObj.nonce = cd.nonce
-        retCodeObj.created = new Date(cd.created * 1000)
+        retCodeObj.created = new Date(cd.created)
       }
       return retCodeObj
     } finally {

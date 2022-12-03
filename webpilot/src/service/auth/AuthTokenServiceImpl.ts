@@ -21,7 +21,7 @@ export class AuthTokenServiceImpl implements AuthTokenService {
         tmpAuthToken.userId = at.userId
         tmpAuthToken.token = at.token
         tmpAuthToken.expireInS = at.expireInS
-        tmpAuthToken.created = new Date(at.created * 1000)
+        tmpAuthToken.created = new Date(at.created)
       }
       return tmpAuthToken
     } finally {

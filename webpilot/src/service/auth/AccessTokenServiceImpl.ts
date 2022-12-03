@@ -19,7 +19,7 @@ export class AccessTokenServiceImpl implements AccessTokenService {
         tmpAccessToken.scope = at.scope
         tmpAccessToken.refreshToken = at.refreshToken
         tmpAccessToken.expireInS = at.expiresInS
-        tmpAccessToken.created = new Date(at.created * 1000)
+        tmpAccessToken.created = new Date(at.created)
       }
       return tmpAccessToken
     } finally {
