@@ -31,8 +31,8 @@ export const loginPagePostController = async (request: Request, response: Respon
   const user = await userService.getUserByUserId(id)
   logger.debug(`user: ${JSON.stringify(user)}`)
   if (user === null) {
-    logger.info(`That id is not registered: ${id}`)
-    response.render('login', { data: { csrfToken, error: true, message: 'That id is not registered.', to: request.body.to } })
+    logger.info(`This id is not registered: ${id}`)
+    response.render('login', { data: { csrfToken, error: true, message: 'This id is not registered.', to: request.body.to } })
     return
   }
 
