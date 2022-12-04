@@ -42,7 +42,7 @@ export class HistoryResponse {
   toJSON () {
     return {
       id: this.id,
-      scheduleId: this.id,
+      scheduleId: this.scheduleId,
       date: this.date,
       result: this.result
     }
