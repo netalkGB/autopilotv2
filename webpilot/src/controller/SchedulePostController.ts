@@ -21,7 +21,7 @@ export const schedulePostController = async (request: Request, response: Respons
 
   try {
     const scheduleValidator = new ScheduleValidator()
-    const scheduleService = new ScheduleServiceImpl(AppDataSource)
+    const scheduleService = new ScheduleServiceImpl(AppDataSource.getInstance())
     const rssService = new RSSServiceImpl(ServerConfig.proxyUrl)
 
     const inputSchedule = new ScheduleRequest(request.body)

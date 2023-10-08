@@ -27,7 +27,7 @@ export const loginPagePostController = async (request: Request, response: Respon
     response.render('login', { data: { csrfToken, error: true, message: 'Please enter your id.', to: request.body.to } })
     return
   }
-  const userService = new UserServiceImpl(AppDataSource)
+  const userService = new UserServiceImpl(AppDataSource.getInstance())
   const user = await userService.getUserByUserId(id)
   logger.debug(`user: ${JSON.stringify(user)}`)
   if (user === null) {

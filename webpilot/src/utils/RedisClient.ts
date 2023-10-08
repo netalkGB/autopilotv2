@@ -1,9 +1,14 @@
 import { createClient, RedisClientType } from 'redis'
-import dbConfig from '../../dbConfig.json'
+import { DatabaseConfig } from '../DatabaseConfig'
 
 export class RedisClient {
   public static create (): RedisClientType {
-    const { username, password, host, port } = dbConfig.redis
+    const redisConfig = DatabaseConfig.redis
+    const username = redisConfig?.username
+    const password = redisConfig?.password
+    const host = redisConfig?.host
+    const port = redisConfig?.port
+
     return createClient({
       url: `redis://${username ? `${username}:${password}@` : ''}${host}:${port}`
     })

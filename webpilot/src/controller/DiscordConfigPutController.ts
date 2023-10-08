@@ -19,7 +19,7 @@ export const discordConfigPutController = async (request: Request, response: Res
   }
 
   try {
-    const configService = new ConfigServiceImpl(AppDataSource)
+    const configService = new ConfigServiceImpl(AppDataSource.getInstance())
     const notificationService = new NotificationServiceImpl(configService)
 
     const body = request.body

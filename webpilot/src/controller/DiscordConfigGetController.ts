@@ -17,7 +17,7 @@ export const discordConfigGetController = async (request: Request, response: Res
     return
   }
 
-  const configService = new ConfigServiceImpl(AppDataSource)
+  const configService = new ConfigServiceImpl(AppDataSource.getInstance())
   try {
     const discordConfigResponse = new DiscordConfigResponse()
     const url = await configService.getConfigValue(DISCORD_CONFIG_KEY)

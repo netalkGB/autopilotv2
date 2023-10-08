@@ -6,14 +6,15 @@ import session from 'express-session'
 import ejs from 'ejs'
 import schedule from 'node-schedule'
 import log4js from 'log4js'
+import fs from 'fs'
 import { ServerConfig } from './ServerConfig'
-import config from '../config.json'
 import { ConfigServiceImpl } from './service/autopilot/ConfigServiceImpl'
 import { AutoPilotServiceImpl } from './service/autopilot/AutoPilotServiceImpl'
 import { ScheduleServiceImpl } from './service/autopilot/ScheduleServiceImpl'
 import { PilotServiceImpl } from './service/autopilot/PilotServiceImpl'
 import { RSSServiceImpl } from './service/autopilot/RSSServiceImpl'
 import { NotificationServiceImpl } from './service/autopilot/NotificationServiceImpl'
+import { DatabaseConfig } from './DatabaseConfig'
 
 declare module 'express-session' {
   // eslint-disable-next-line no-unused-vars
@@ -40,12 +41,12 @@ logger.level = 'all'
 main()
 
 async function main () {
-  loadConfig()
+  await loadConfig()
 
   const port = ServerConfig?.port
 
   try {
-    await AppDataSource.initialize()
+    await AppDataSource.getInstance().initialize()
     const app = express()
     app.use(express.json())
     app.use((err: any, req: Request, res: Response, next: NextFunction) => {
@@ -93,10 +94,10 @@ async function main () {
 
     const autopilotService =
       new AutoPilotServiceImpl(logger,
-        new ScheduleServiceImpl(AppDataSource),
-        new PilotServiceImpl(AppDataSource),
+        new ScheduleServiceImpl(AppDataSource.getInstance()),
+        new PilotServiceImpl(AppDataSource.getInstance()),
         new RSSServiceImpl(ServerConfig.proxyUrl),
-        new NotificationServiceImpl(new ConfigServiceImpl(AppDataSource)))
+        new NotificationServiceImpl(new ConfigServiceImpl(AppDataSource.getInstance())))
 
     const everyxx0030 = '0,30 */1 * * *' // every 30minutes and 1hour
     schedule.scheduleJob(everyxx0030, async () => {
@@ -126,12 +127,25 @@ async function main () {
   }
 }
 
-function loadConfig () {
-  ServerConfig.port = config?.port
-  ServerConfig.proxyUrl = config?.proxyUrl
-  ServerConfig.mailConfig = config?.mailConfig
-  ServerConfig.serverRsaKey = config?.serverRsaKey
-  ServerConfig.serverAddress = config?.serverAddress
-  ServerConfig.accessTokenExpireInS = config?.accessTokenExpireInS
-  ServerConfig.idTokenExpireInS = config?.idTokenExpireInS
+async function loadConfig () {
+  try {
+    const config = JSON.parse(await fs.promises.readFile('./config.json', 'utf8'))
+    ServerConfig.port = config?.port
+    ServerConfig.proxyUrl = config?.proxyUrl
+    ServerConfig.mailConfig = config?.mailConfig
+    ServerConfig.serverRsaKey = config?.serverRsaKey
+    ServerConfig.serverAddress = config?.serverAddress
+    ServerConfig.accessTokenExpireInS = config?.accessTokenExpireInS
+    ServerConfig.idTokenExpireInS = config?.idTokenExpireInS
+  } catch (e) {
+    logger.error('error:', e)
+  }
+
+  try {
+    const config = JSON.parse(await fs.promises.readFile('./dbConfig.json', 'utf8'))
+    DatabaseConfig.rdb = config.rdb
+    DatabaseConfig.redis = config.redis
+  } catch (e) {
+    logger.error('error:', e)
+  }
 }

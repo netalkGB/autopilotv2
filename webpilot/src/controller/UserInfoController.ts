@@ -15,7 +15,7 @@ export const userInfoController = async (req: Request, res: Response) => {
     return
   }
 
-  const userInfoService = new UserInfoServiceImpl(AppDataSource)
+  const userInfoService = new UserInfoServiceImpl(AppDataSource.getInstance())
   const userInfo = await userInfoService.fetchUserInfo(accessToken.userId)
 
   if (!userInfo) {

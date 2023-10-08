@@ -15,7 +15,7 @@ export const scheduleDeleteController = async (request: Request, response: Respo
   }
 
   try {
-    const scheduleService = new ScheduleServiceImpl(AppDataSource)
+    const scheduleService = new ScheduleServiceImpl(AppDataSource.getInstance())
     const id = request.query.id as string
     if (!id) {
       response.send('id is required.').status(400)

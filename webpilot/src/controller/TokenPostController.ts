@@ -14,11 +14,11 @@ const logger = log4js.getLogger('app')
 
 export const tokenPostController = async (request: Request, response: Response) => {
   logger.info('start tokenPostController')
-  const clientService = new ClientServiceImpl(AppDataSource)
+  const clientService = new ClientServiceImpl(AppDataSource.getInstance())
   const codeService = new CodeServiceImpl()
   const accessTokenService = new AccessTokenServiceImpl()
-  const refreshTokenService = new RefreshTokenServiceImpl(AppDataSource, accessTokenService)
-  const userInfoService = new UserInfoServiceImpl(AppDataSource)
+  const refreshTokenService = new RefreshTokenServiceImpl(AppDataSource.getInstance(), accessTokenService)
+  const userInfoService = new UserInfoServiceImpl(AppDataSource.getInstance())
 
   // AuthorizationヘッダーからBASE64エンコードされたクライアントIDとクライアントシークレットを取得する
   const authorization = request.headers.authorization

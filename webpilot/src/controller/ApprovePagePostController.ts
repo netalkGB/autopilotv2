@@ -43,7 +43,7 @@ export const approvePagePostController = async (request: Request, response: Resp
     return
   }
 
-  const clientService = new ClientServiceImpl(AppDataSource)
+  const clientService = new ClientServiceImpl(AppDataSource.getInstance())
   const client = await clientService.getClientByClientId(authorizeInfo.clientId)
   const dbScope = client?.scope.split(' ').sort().join(' ')
   const requestScope = authorizeInfo.scope.split(' ').sort().join(' ')

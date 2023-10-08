@@ -47,7 +47,7 @@ export const authorizePageGetController = async (request: Request, response: Res
     return
   }
 
-  const clientService = new ClientServiceImpl(AppDataSource)
+  const clientService = new ClientServiceImpl(AppDataSource.getInstance())
 
   const client = await clientService.getClientByClientId(clientId)
   if (!client) {

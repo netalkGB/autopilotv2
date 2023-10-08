@@ -31,7 +31,7 @@ export const revokePostController = async (request: Request, response: Response)
     clientSecret = request.body.client_secret
   }
 
-  const clientService = new ClientServiceImpl(AppDataSource)
+  const clientService = new ClientServiceImpl(AppDataSource.getInstance())
 
   const client = await clientService.getClientByClientId(clientId)
   logger.info(`client: ${JSON.stringify(client)}`)
@@ -51,7 +51,7 @@ export const revokePostController = async (request: Request, response: Response)
   const token = request.body.token
   // ここでアクセストークンの削除を行う
   const accessTokenService = new AccessTokenServiceImpl()
-  const refreshTokenService = new RefreshTokenServiceImpl(AppDataSource, accessTokenService)
+  const refreshTokenService = new RefreshTokenServiceImpl(AppDataSource.getInstance(), accessTokenService)
 
   await refreshTokenService.deleteRefreshTokenByAccessToken(token)
   await accessTokenService.deleteAccessToken(token)

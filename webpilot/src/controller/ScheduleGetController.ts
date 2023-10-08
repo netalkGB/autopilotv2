@@ -15,7 +15,7 @@ export const scheduleGetController = async (request: Request, response: Response
     return
   }
 
-  const scheduleService = new ScheduleServiceImpl(AppDataSource)
+  const scheduleService = new ScheduleServiceImpl(AppDataSource.getInstance())
   try {
     const schedules = await scheduleService.getSchedule()
 

@@ -17,7 +17,7 @@ export const discordConfigDeleteController = async (request: Request, response: 
   }
 
   try {
-    const configService = new ConfigServiceImpl(AppDataSource)
+    const configService = new ConfigServiceImpl(AppDataSource.getInstance())
 
     await configService.setConfig(DISCORD_CONFIG_KEY, '')
     response.send().status(201)

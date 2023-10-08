@@ -18,7 +18,7 @@ export const schedulePutController = async (request: Request, response: Response
 
   try {
     const scheduleValidator = new ScheduleValidator()
-    const scheduleService = new ScheduleServiceImpl(AppDataSource)
+    const scheduleService = new ScheduleServiceImpl(AppDataSource.getInstance())
     const body = request.body
     const id = body.id
     const scheduleRequest = new ScheduleRequest(body)
