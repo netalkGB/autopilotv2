@@ -55,7 +55,9 @@ module.exports = (_, argv) => {
             /^typeorm-aurora-data-api-driver$/,
             /^@sap\/hana-client$/,
             /^hdb-pool$/,
-            /^@google-cloud\/spanner$/
+            /^@google-cloud\/spanner$/,
+            /^ioredis$/,
+            /^better-sqlite3$/,
           ].map(ign => (new webpack.IgnorePlugin({ resourceRegExp: ign })))),
           new ESlintWebpackPlugin({
             extensions: ["js", "ts"],
