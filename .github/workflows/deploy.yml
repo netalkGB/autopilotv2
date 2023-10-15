@@ -1,0 +1,59 @@
+name: autopilot-deploy
+on:
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+
+      - name: Setup ssh
+        env:
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          echo "$PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          eval $(ssh-agent -s)
+          ssh-add ~/.ssh/id_ed25519
+          ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+
+      - name: Build proxy
+        run: |
+          cd proxy
+          npm ci
+          npm run build
+
+      - name: Build webpilot
+        run: |
+          cd webpilot
+          npm ci
+          npm run build
+
+      - name: Deploy
+        env:
+          USERNAME: ${{ secrets.SERVER_USERNAME }}
+          HOST: ${{ secrets.SERVER_HOST }}
+        run: |
+          ssh -o "StrictHostKeyChecking=no" $USERNAME@$HOST 'cd ~/autopilot-docker && docker compose down; true'
+          ssh -o "StrictHostKeyChecking=no" $USERNAME@$HOST ' yes | docker image prune'
+          ssh -o "StrictHostKeyChecking=no"  $USERNAME@$HOST 'rm -r ~/autopilot-docker/proxy/out/'
+          ssh -o "StrictHostKeyChecking=no" $USERNAME@$HOST 'rm -r ~/autopilot-docker/webpilot/out/'
+          rsync -av -e ssh proxy/out/ $USERNAME@$HOST:~/autopilot-docker/proxy/out/
+          rsync -av -e ssh webpilot/out/ $USERNAME@$HOST:~/autopilot-docker/webpilot/out/
+          ssh -o "StrictHostKeyChecking=no" $USERNAME@$HOST 'cd ~/autopilot-docker && docker compose up --build -d'
