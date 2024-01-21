@@ -127,6 +127,10 @@ ul, li {
     margin-bottom: 4px;
 }
 
+.scope_area li {
+    margin-left: 12px;
+}
+
 
 .login button {
     height: 36px;
