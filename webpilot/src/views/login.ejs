@@ -15,7 +15,7 @@
                 <% if (data.error) { %>
                     <div class="error"><%= data.message %></div>
                 <% } %>
-                <input type="text" name="id" class="<% if (data.error) { %>error<% } %>" placeholder="ID">
+                <input type="text" name="id" class="<% if (data.error) { %>error<% } %>" placeholder="ID" autocomplete="off">
                 <input type="hidden" name="csrfToken" value="<%= data.csrfToken %>">
                 <% if (data.to) { %>
                     <input type="hidden" name="to" value="<%= data.to %>">
