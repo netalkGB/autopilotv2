@@ -41,7 +41,7 @@
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "fast-xml-parser": "^4.3.2",
-    "jsrsasign": "^10.8.6",
+    "jsrsasign": "^11.0.0",
     "log4js": "^6.9.1",
     "node-fetch": "^3.2.10",
     "node-schedule": "^2.1.1",
