@@ -26,13 +26,13 @@ export const schedulePutController = async (request: Request, response: Response
     const name = body.name
 
     if (!id) {
-      response.send('id is required.').status(400)
+      response.status(400).send('id is required.')
       logger.info('end schedulePutController')
       return
     }
 
     if (schedule && !scheduleValidator.validateSchedule(schedule)) {
-      response.send('schedule format error.').status(400)
+      response.status(400).send('schedule format error.')
       logger.info('schedule format error.')
       logger.info('end schedulePutController')
       return
@@ -42,7 +42,7 @@ export const schedulePutController = async (request: Request, response: Response
       await scheduleService.updateSchedule(id, schedule, name)
     } catch (e) {
       if (e instanceof Error && e.message === 'not yet registered') {
-        response.send('not yet registered').status(400)
+        response.status(400).send('not yet registered')
         logger.info('end schedulePutController')
         return
       } else {
@@ -50,10 +50,10 @@ export const schedulePutController = async (request: Request, response: Response
       }
     }
 
-    response.send().status(201)
+    response.status(201).send()
     logger.info('end schedulePutController')
   } catch (e) {
-    response.send('error').status(500)
+    response.status(500).send('error')
     logger.error('!end schedulePutController')
     logger.error('error:', e)
   }

@@ -18,15 +18,15 @@ export const scheduleDeleteController = async (request: Request, response: Respo
     const scheduleService = new ScheduleServiceImpl(AppDataSource.getInstance())
     const id = request.query.id as string
     if (!id) {
-      response.send('id is required.').status(400)
+      response.status(400).send('id is required.')
       logger.info('end schedulePutController')
       return
     }
     await scheduleService.deleteSchedule(id)
-    response.send().status(201)
+    response.status(201).send()
     logger.info('end scheduleDeleteController')
   } catch (e) {
-    response.send('error').status(500)
+    response.status(500).send('error')
     logger.error('!end scheduleDeleteController')
     logger.error('error:', e)
   }

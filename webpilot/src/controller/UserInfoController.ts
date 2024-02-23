@@ -11,7 +11,7 @@ export const userInfoController = async (req: Request, res: Response) => {
   const accessToken = req.token
 
   if (!accessToken.scope.includes('openid')) {
-    res.send().status(403)
+    res.status(403).send()
     return
   }
 
@@ -19,7 +19,7 @@ export const userInfoController = async (req: Request, res: Response) => {
   const userInfo = await userInfoService.fetchUserInfo(accessToken.userId)
 
   if (!userInfo) {
-    res.send().status(404)
+    res.status(404).send()
     return
   }
 
@@ -84,6 +84,6 @@ export const userInfoController = async (req: Request, res: Response) => {
     }
   })
 
-  res.send(response).status(200)
+  res.status(200).send(response)
   logger.info('end tokenPostController')
 }

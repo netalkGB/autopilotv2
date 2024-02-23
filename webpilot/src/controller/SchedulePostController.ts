@@ -26,17 +26,17 @@ export const schedulePostController = async (request: Request, response: Respons
 
     const inputSchedule = new ScheduleRequest(request.body)
     if (!scheduleValidator.validateSchedule(inputSchedule?.schedule)) {
-      response.send('schedule === \'every30minutes\' || schedule === \'every1hour\'').status(400)
+      response.status(400).send('schedule === \'every30minutes\' || schedule === \'every1hour\'')
       return
     }
 
     if (!scheduleValidator.validateName(inputSchedule?.name)) {
-      response.send('name is required.').status(400)
+      response.status(400).send('name is required.')
       return
     }
 
     if (!scheduleValidator.validateURLFormat(inputSchedule?.url)) {
-      response.send('invalid url format.').status(400)
+      response.status(400).send('invalid url format.')
       return
     }
 
@@ -45,7 +45,7 @@ export const schedulePostController = async (request: Request, response: Respons
       const isValid = await rssService.isValidRSS(inputSchedule?.url)
       if (!isValid) {
         logger.error('RSS format error url:', inputSchedule?.url)
-        response.send('RSS format error').status(400)
+        response.status(400).send('RSS format error')
         logger.info('!end RSS format check')
         logger.error('!end schedulePostController')
         return
@@ -55,7 +55,7 @@ export const schedulePostController = async (request: Request, response: Respons
     } catch (e) {
       if (e instanceof Error && e.message === 'http error') {
         logger.error('cannot fetch xml:', inputSchedule?.url)
-        response.send('cannot fetch xml').status(400)
+        response.status(400).send('cannot fetch xml')
         logger.info('!end RSS format check')
         logger.error('!end schedulePostController')
         return
@@ -71,7 +71,7 @@ export const schedulePostController = async (request: Request, response: Respons
       await scheduleService.addSchedule(schedule)
     } catch (e) {
       if (e instanceof Error && e.message === 'already registered') {
-        response.send('already registered').status(409)
+        response.status(409).send('already registered')
         logger.error('!end schedulePostController')
         return
       } else {
@@ -79,10 +79,10 @@ export const schedulePostController = async (request: Request, response: Respons
       }
     }
 
-    response.send().status(201)
+    response.status(201).send()
     logger.info('end schedulePostController')
   } catch (e) {
-    response.send('error').status(500)
+    response.status(500).send('error')
     logger.error('!end schedulePostController')
     logger.error('error:', e)
   }

@@ -28,10 +28,10 @@ export const scheduleGetController = async (request: Request, response: Response
       return responseSchedule
     })
 
-    response.send(responseSchedules).status(200)
+    response.status(200).send(responseSchedules)
     logger.info('end scheduleGetController')
   } catch (e) {
-    response.send('error').status(500)
+    response.status(500).send('error')
     logger.error('!end scheduleGetController')
     logger.error('error:', e)
   }

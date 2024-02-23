@@ -13,7 +13,7 @@ export const loginPagePostController = async (request: Request, response: Respon
   logger.info('start loginPagePostController')
   // csrfトークンが違うならエラー
   if (request.body.csrfToken !== request.session.csrfToken) {
-    response.send('A problem was encountered in login!').status(400).end()
+    response.status(400).send('A problem was encountered in login!').end()
     return
   }
   // CSRFトークン生成

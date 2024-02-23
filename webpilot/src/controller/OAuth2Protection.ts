@@ -14,7 +14,7 @@ export async function oAuth2Protection (request: Request, response: Response, ne
   } else if (request.body && request.body.access_token) {
     bearerToken = request.body.access_token
   } else {
-    response.send('error').status(401).end()
+    response.status(401).send('error').end()
     return
   }
 
@@ -22,7 +22,7 @@ export async function oAuth2Protection (request: Request, response: Response, ne
   const dbToken = await accessTokenService.fetchAccessTokenByToken(bearerToken)
   // ないまたはexpireすぎてるならエラーにする
   if (!dbToken) {
-    response.send({ error: 'invalid_request' }).status(400).end()
+    response.status(400).send({ error: 'invalid_request' }).end()
     return
   }
 

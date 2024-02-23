@@ -20,10 +20,10 @@ export const discordConfigDeleteController = async (request: Request, response: 
     const configService = new ConfigServiceImpl(AppDataSource.getInstance())
 
     await configService.setConfig(DISCORD_CONFIG_KEY, '')
-    response.send().status(201)
+    response.status(201).send()
     logger.info('end discordConfigDeleteController')
   } catch (e) {
-    response.send('error').status(500)
+    response.status(500).send('error')
     logger.error('!end discordConfigDeleteController')
     logger.error('error:', e)
   }

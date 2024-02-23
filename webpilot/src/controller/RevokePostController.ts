@@ -24,7 +24,7 @@ export const revokePostController = async (request: Request, response: Response)
   }
   if (request.body.client_id) {
     if (clientId) {
-      response.send({ error: 'invalid_client' }).status(401)
+      response.status(401).send({ error: 'invalid_client' })
       return
     }
     clientId = request.body.client_id
@@ -38,13 +38,13 @@ export const revokePostController = async (request: Request, response: Response)
   // クライアントIDで検索して見つからないならエラー
   if (!client) {
     logger.info('Invalid client.')
-    response.send({ error: 'invalid_client' }).status(401)
+    response.status(401).send({ error: 'invalid_client' })
     return
   }
   // クライアントシークレットが一致しないならもうエラー ただし、パブリッククライアントのときはバイパスする
   if (!client.isPublic && client.clientSecret !== clientSecret) {
     logger.info('Invalid client.')
-    response.send({ error: 'invalid_client' }).status(401)
+    response.status(401).send({ error: 'invalid_client' })
     return
   }
 

@@ -35,7 +35,7 @@ export const authorizePageGetController = async (request: Request, response: Res
 
   // パラメータに不足があればエラー nonceはOPTIONAL
   if (responseType === undefined || scope === undefined || clientId === undefined || redirectUri === undefined || state === undefined || codeChallenge === undefined || codeChallengeMethod === undefined) {
-    response.send('error').status(400).end()
+    response.status(400).send('error').end()
     return
   }
 
@@ -52,7 +52,7 @@ export const authorizePageGetController = async (request: Request, response: Res
   const client = await clientService.getClientByClientId(clientId)
   if (!client) {
     logger.info('Unknown client: clientId=' + clientId)
-    response.send('Unknown client.').status(400).end()
+    response.status(400).send('Unknown client.').end()
     return
   }
 

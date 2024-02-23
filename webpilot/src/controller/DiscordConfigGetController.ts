@@ -22,10 +22,10 @@ export const discordConfigGetController = async (request: Request, response: Res
     const discordConfigResponse = new DiscordConfigResponse()
     const url = await configService.getConfigValue(DISCORD_CONFIG_KEY)
     discordConfigResponse.configured = Boolean(url)
-    response.send(discordConfigResponse).status(200)
+    response.status(200).send(discordConfigResponse)
     logger.info('end discordConfigGetController')
   } catch (e) {
-    response.send('error').status(500)
+    response.status(500).send('error')
     logger.error('!end discordConfigGetController')
     logger.error('error:', e)
   }

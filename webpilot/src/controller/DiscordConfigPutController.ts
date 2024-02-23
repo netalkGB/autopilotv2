@@ -26,7 +26,7 @@ export const discordConfigPutController = async (request: Request, response: Res
     const discordRequest = new DiscordConfigRequest(body)
     const discordWebHookUrl = discordRequest.discordWebHookUrl
     if (!discordWebHookUrl) {
-      response.send('discordWebHookUrl is required.').status(400)
+      response.status(400).send('discordWebHookUrl is required.')
       logger.info('end discordConfigPutController')
       return
     }
@@ -34,10 +34,10 @@ export const discordConfigPutController = async (request: Request, response: Res
     await configService.setConfig(DISCORD_CONFIG_KEY, discordWebHookUrl)
     await notificationService.notify('test message from apbot.')
 
-    response.send().status(201)
+    response.status(201).send()
     logger.info('end discordConfigPutController')
   } catch (e) {
-    response.send('error').status(500)
+    response.status(500).send('error')
     logger.error('!end discordConfigPutController')
     logger.error('error:', e)
   }

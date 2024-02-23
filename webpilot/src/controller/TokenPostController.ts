@@ -35,7 +35,7 @@ export const tokenPostController = async (request: Request, response: Response) 
   }
   if (request.body.client_id) {
     if (clientId) {
-      response.send({ error: 'invalid_client' }).status(401)
+      response.status(401).send({ error: 'invalid_client' })
       return
     }
     clientId = request.body.client_id
@@ -46,13 +46,13 @@ export const tokenPostController = async (request: Request, response: Response) 
   // クライアントIDで検索して見つからないならエラー
   if (!client) {
     logger.info('Invalid client.')
-    response.send({ error: 'invalid_client' }).status(401)
+    response.status(401).send({ error: 'invalid_client' })
     return
   }
   // クライアントシークレットが一致しないならもうエラー ただし、パブリッククライアントのときはバイパスする
   if (!client.isPublic && client.clientSecret !== clientSecret) {
     logger.info('Invalid client.')
-    response.send({ error: 'invalid_client' }).status(401)
+    response.status(401).send({ error: 'invalid_client' })
     return
   }
 
@@ -85,12 +85,12 @@ export const tokenPostController = async (request: Request, response: Response) 
     } else if (code.codeChallengeMethod.toLowerCase() === 's256') { // 多分大文字小文字の区別ない
       codeChallenge = AppUtils.generateS256CodeChallenge(request.body.code_verifier)
     } else {
-      response.send({ error: 'invalid_request' }).status(400)
+      response.status(400).send({ error: 'invalid_request' })
       return
     }
     // codeChallengeが一致しないならエラー
     if (code.codeChallenge !== codeChallenge) {
-      response.send({ error: 'invalid_request' }).status(400)
+      response.status(400).send({ error: 'invalid_request' })
       return
     }
 

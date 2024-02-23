@@ -14,7 +14,7 @@ export const approvePagePostController = async (request: Request, response: Resp
 
   // authorizeInfoが削除されているならエラー
   if (request.session.authorizeInfo === undefined) {
-    response.send('A problem was encountered in authorization.').status(400).end()
+    response.status(400).send('A problem was encountered in authorization.').end()
     return
   }
 
@@ -24,7 +24,7 @@ export const approvePagePostController = async (request: Request, response: Resp
 
   // csrfトークンが違うならエラー
   if (csrfToken !== request.session.csrfToken) {
-    response.send('A problem was encountered in authorization!').status(400).end()
+    response.status(400).send('A problem was encountered in authorization!').end()
     return
   }
   if (approve !== 'yes') {

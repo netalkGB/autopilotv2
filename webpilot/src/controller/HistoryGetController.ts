@@ -28,10 +28,10 @@ export const historyGetController = async (request: Request, response: Response)
       return historyResponse
     })
 
-    response.send(historyResponse).status(200)
+    response.status(200).send(historyResponse)
     logger.info('end historyGetController')
   } catch (e) {
-    response.send('error').status(500)
+    response.status(500).send('error')
     logger.error('!end historyGetController')
     logger.error('error:', e)
   }
